@@ -51,6 +51,8 @@
 		</select>
 </div>
 	<div class="form_row">                                                                                 <!--  Vitaller      -->
+		<label id="lb_vitn2" for="ch_vitn2">N</label>
+		<input type="checkbox" id="ch_vitn2"/>
 		<label for="tx_TA" id="lb_ta"></label>
 		<input type="text" id="tx_TA" onfocus="this.select()" oninput="addSlash(this)" class="vit_box" spellcheck="false" maxlength="7" autocomplete="off">
 		<label for="tx_NB" id="lb_NB"></label>
@@ -314,10 +316,12 @@
 		<span class="num_badge"></span>
 	</div>
 	<ul id="medicineList"></ul>
-	<div class="form_blob" id="form_blob">
-		<div id="txCont_pat"></div>
-		<textarea id="ta_pop" spellcheck="false"></textarea>
-	</div>
+<div class="form_blob" id="form_blob">
+    <div id="txCont_pat"></div>
+    <textarea id="ta_pop" spellcheck="false"></textarea>
+    <button id="bt_small" onclick="tog_Case()">Aa</button>
+</div>
+
 	<div id="form_gizli">
 		<label id="lb_say" onclick="togStop()"></label>
 		<label class="lb_big" id="lb_big4"><input type="checkbox" id="chn_not6" onchange="tog_not5()"> Bu sebp</label>
