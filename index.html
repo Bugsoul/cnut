@@ -85,9 +85,11 @@
 			<input type="checkbox" id="ch_adli" onchange="tog_adli()">
 		</div>
 		<div class="form_row">
+			<div id="div_clas">
 			<img id="im_xry" alt="x">
 			<label for="ch_akc" id="lb_akc"></label>
 			<input type="checkbox" id="ch_akc" onchange="tog_akc()">
+			</div>
 			<label for="ch_plus" id="lb_plus"></label>
 			<input type="checkbox" id="ch_plus" class="iphone_switch" onchange="tog_plus()">
 			<label for="ch_plus" class="swtc_pls"></label>
@@ -145,7 +147,7 @@
 		<input type="text" id="tx_akg" class="gru_tbox" spellcheck="false" oninput="handleChange(this)">
 	</div>
 	<div class="form_row">                                                         <!--  ICD - Lab - BT - Kons      -->
-			<label for="tx_icd" id="lb_icd" class="sol_fix"></label>
+			<label for="tx_icd" id="lb_icd" class="sol_fix"></label> <!-- sagTikYerDegistir(elementID) -->
 			<input type="text" id="tx_icd" class="gru_tbox" spellcheck="false">
 			
 			<img id="im_blood" style="cursor: pointer;" class="grayscale" onclick="tog_Labaratuvar(this)">
@@ -162,7 +164,7 @@
 			  </div>
 			</div>
 
-			<div id="tx_kons" contenteditable="true" class="gru_tbox" spellcheck="false" ondblclick="txKons1Double()"></div>
+			<div id="tx_kons" contenteditable="true" class="gru_tbox" spellcheck="false" ondblclick="txKons1Double()"></div> <!-- sagTikYerDegistir(elementID) -->
 			<img id="im_cok" style="cursor: pointer;" onclick="tog_ConsOk()">
 			<img id="im_easy" style="cursor: pointer;" onclick="tog_Easy()">
 	</div>
@@ -325,7 +327,7 @@
 	<div id="form_gizli">
 		<label id="lb_say" onclick="togStop()"></label>
 		<label class="lb_big" id="lb_big4"><input type="checkbox" id="chn_not6" onchange="tog_not5()"> Bu sebp</label>
-		<label class="lb_big"><input type="checkbox" id="chn_not3" onchange="tog_not3()"> <span style="color: limegreen; font-weight: bold;">(+)Taburcu</span></label>
+		<label class="lb_big"><input type="checkbox" id="chn_not3" onchange="tog_not3()" checked> <span style="color: limegreen; font-weight: bold;">(+)Taburcu</span></label>
 		<label class="lb_big"><input type="checkbox" id="chn_not" onchange="tog_not()" checked> <span style="color: lightblue; font-weight: bold;">(—)Sevk</span></label>
 		<label class="lb_big" id="lb_big2"><input type="checkbox" id="chn_not2" onchange="tog_not2()"> Bast</label>
 		<label class="lb_big" id="lb_big3"><input type="checkbox" id="chn_not4" onchange="tog_not4()"> Anestezi</label>
@@ -375,7 +377,7 @@
         <div><label class="lb_key" for="chlb_E">Endokrinoloji</label><input id="chlb_E" type="checkbox" data-key="e" data-info="E"></div>
         <div><label class="lb_key" for="chlb_A">Anestezi</label><input id="chlb_A" type="checkbox" data-key="a" data-info="A"></div>
         <div><img src="iko/brans/enf.png"><label for="chlb_İ">İntaniye</label><input id="chlb_İ" type="checkbox" data-key="i" data-info="İ"></div>
-        <div><img src="iko/brans/psi.png"><label for="chlb_Ps">Psikiyatri</label><input id="chlb_Ps" type="checkbox" data-info="Ps"></div>
+        <div><img src="iko/brans/psi.png"><label for="chlb_Ps">Psikiyatri</label><input id="chlb_Ps" type="checkbox" data-key="p" data-info="Ps"></div>
         <div><label class="lb_key" for="chlb_On">Onkoloji</label><input id="chlb_On" type="checkbox" data-info="On"></div>
         <div><img src="iko/brans/ped.png"><label for="chlb_Ch">Çoc.Has</label><input id="chlb_Ch" type="checkbox" data-info="Ch"></div>
 	</div>
@@ -384,12 +386,12 @@
         <div><img src="iko/brans/gogc.png"><label for="chlb_Ğc">Göğ.Cerr</label><input id="chlb_Ğc" type="checkbox" data-key="ğ" data-info="Ğc"></div>
         <div><img src="iko/brans/nrs.png"><label for="chlb_Bc">NRŞ</label><input id="chlb_Bc" type="checkbox" data-key="b" data-info="Bc"></div>
         <div><img src="iko/brans/ort.png"><label for="chlb_O">Ortopedi</label><input id="chlb_O" type="checkbox" data-key="o" data-info="O"></div>
-        <div><label class="lb_key" for="chlb_Çc">Çoc.Cerr.</label><input id="chlb_Çc" type="checkbox" data-info="Çc"></div>
+        <div><label class="lb_key" for="chlb_Çc">Çoc.Cerr.</label><input id="chlb_Çc" type="checkbox" data-key="ç" data-info="Çc"></div>
         <div><label class="lb_key" for="chlb_Pc">PRC</label><input id="chlb_Pc" type="checkbox" data-info="Pc"></div>
-        <div><img src="iko/brans/kvc.png"><label for="chlb_Kv">KVC</label><input id="chlb_Kv" type="checkbox" data-info="Kv"></div>
+        <div><img src="iko/brans/kvc.png"><label for="chlb_Kv">KVC</label><input id="chlb_Kv" type="checkbox" data-key="v" data-info="Kv"></div>
         <div><img src="iko/brans/kbb.png"><label for="chlb_Kb">KBB</label><input id="chlb_Kb" type="checkbox" data-info="Kb"></div>
-        <div><img src="iko/brans/goz.png"><label for="chlb_Gz">Göz</label><input id="chlb_Gz" type="checkbox" data-info="Gz"></div>
-		<div><label class="lb_key" for="chlb_U">Üroloji</label><input id="chlb_U" type="checkbox" data-info="U"></div>
+        <div><img src="iko/brans/goz.png"><label for="chlb_Gz">Göz</label><input id="chlb_Gz" type="checkbox" data-key="z" data-info="Gz"></div>
+		<div><label class="lb_key" for="chlb_U">Üroloji</label><input id="chlb_U" type="checkbox" data-key="ü" data-info="U"></div>
         <div><label class="lb_key" for="chlb_Kh">KHD</label><input id="chlb_Kh" type="checkbox" data-info="Kh"></div>
     </div>
 </div>
