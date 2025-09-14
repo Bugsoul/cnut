@@ -108,7 +108,7 @@
             "2r": "sağ orta zonda",
             "2l": "sol orta zonda",
             "3r": "sağ üst zonda",
-            "3l": "sol sol zonda",
+            "3l": "sol üst zonda",
             "1r+2r": "sağ orta zonlara kadar",
             "1l+2l": "sol orta zonlara kadar",
             "1r+2r+3r": "sağ üst zonlara kadar",
@@ -166,6 +166,20 @@
             });
         });
 		
+		document.body.title = "'/\exam_frames/\pulmoner_exm.html'\n- Önce zone seçimi yap.";
+
+    // Her 1 sn'de bir zone_data kontrolü
+    setInterval(function () {
+        const zoneData = localStorage.getItem("zone_data");
+
+        if (!zoneData) { // null veya "" ise
+            // Seçili zonların hepsini temizle
+            selectedzone_akcs.clear();
+            document.querySelectorAll('.zone_akc').forEach(z => z.classList.remove('zon_selected'));
+            document.getElementById("selected_zone").textContent = ""; // label da temizlensin
+        }
+    }, 1000);
+	
     </script>
 </body>
 </html>
