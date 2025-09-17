@@ -255,7 +255,8 @@
 		<input type="checkbox" id="ch_xr" onchange="tog_xr()">		
 		<input type="checkbox" id="ch_pc" onchange="tog_pc()" class="iphone_switch">
 		<label id="lb_pc" for="ch_pc" class="swtc_pc"></label>
-		<button type="button" class="cencan" id="bt_bck" onclick="sKaydet()"></button>
+		<button type="button" class="cencan" id="bt_bck" onclick="sirayla_upAllsS_sKaydet()"></button>
+
 		
 			<div id="div_yBut">
 			  <div id="bt_oki" onclick="timeJob(this)">OK</div>
@@ -278,6 +279,8 @@
 		<label id="lb_saat" onclick="tik_saat()"></label>
 		<label id="lb_gist"></label>
 		<label id="lb_upd"></label>
+		<img id="im_sStrg" style="cursor: pointer;" class="grayscale" onclick="sKaydet(this)">
+		<img id="bt_bckAll" class="grayscale"  onclick="updateAll_SessionStorage()"></img>
 		<div id="im_cont1" class="img_container" style="cursor: pointer;" onclick="tog_Issue_Alert()">
 			<img id="im_alert1" class="im_alert">
 			<span class="num_badge"></span>
@@ -508,6 +511,14 @@
 </div></div>
 
 <div id="div_TrvExam" style="display:none;"></div>
+
+<div id="updateOverlay" style="display:none;">
+  <div class="overlay-content">
+    <pre id="dosOutput"></pre>
+  </div>
+</div>
+
+
 </body>
 </html>
 
