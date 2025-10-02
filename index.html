@@ -150,11 +150,22 @@
 			<label for="tx_icd" id="lb_icd" class="sol_fix"></label> <!-- sagTikYerDegistir(elementID) -->
 			<input type="text" id="tx_icd" class="gru_tbox" spellcheck="false">
 			
-			<img id="im_blood" style="cursor: pointer;" class="grayscale" onclick="tog_Labaratuvar(this)">
-			<img id="im_urine" style="cursor: pointer;" class="grayscale" onclick="tog_Labaratuvar(this)">
-			<img id="im_trx" style="cursor: pointer;"class="grayscale" onclick="tog_Labaratuvar(this)">
-			<img id="im_bt" style="cursor: pointer;" class="grayscale" onclick="tog_Labaratuvar(this)">
-			<img id="im_mr" style="cursor: pointer;" class="grayscale" onclick="tog_Labaratuvar(this)">
+		<img id="im_blood" style="cursor: pointer;" class="grayscale" 
+			 onclick="tog_Labaratuvar(this)" 
+			 oncontextmenu="remove_Labaratuvar(this); return false;">
+		<img id="im_urine" style="cursor: pointer;" class="grayscale" 
+			 onclick="tog_Labaratuvar(this)" 
+			 oncontextmenu="remove_Labaratuvar(this); return false;">
+		<img id="im_trx" style="cursor: pointer;" class="grayscale" 
+			 onclick="tog_Labaratuvar(this)" 
+			 oncontextmenu="remove_Labaratuvar(this); return false;">
+		<img id="im_bt" style="cursor: pointer;" class="grayscale" 
+			 onclick="tog_Labaratuvar(this)" 
+			 oncontextmenu="remove_Labaratuvar(this); return false;">
+		<img id="im_mr" style="cursor: pointer;" class="grayscale" 
+			 onclick="tog_Labaratuvar(this)" 
+			 oncontextmenu="remove_Labaratuvar(this); return false;">
+
 			<div class="div_folding2">
 			  <button id="bt_iki" onclick="togFolding('div_cont2')">▢</button>
 			  <div id="div_cont2" style="display: none;">
@@ -232,7 +243,7 @@
 	
 		</div>
 
-			<div class="cls_ext" style="display:none;">		
+			<div id="div_ext" style="display:none;">		
 				<textarea id="ta_ext" class="gru_tbox" spellcheck="false"></textarea>
 				<div class="form_dik">
 					<img id="im_copy2" style="cursor: pointer;" onclick="subCopy()">
@@ -348,18 +359,20 @@
 	<label id="lb_yak" onclick="subYak()" style="cursor: pointer;">Approaches</label>
     <iframe id="fr_ht"></iframe>
 </div>
+<script src="test_debugger.js"></script>
 <script src="popup.js"></script>
 <script src="pop_lab.js"></script>
 <script src="pop_tik.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <div id="popGist" class="pop-up">
   <div id="ch_pop" class="form_row">
 		<label>Ext</label>
-		<input type="checkbox" id="ch_exi" onchange="popGists()">
+		<input type="checkbox" id="ch_exi" onchange="popGists(true)">
 		<label>All</label>
 		<input type="checkbox" id="ch_tum" onchange="popGists()">
 		<label>Time</label>
-		<input type="checkbox" id="ch_time" onchange="popGists()">
+		<input type="checkbox" id="ch_time" onchange="popGists(true)">
 		<input type="text" id="tx_src" onkeydown="handleKeyPress(event)">
 		<button id="bt_src" onclick="subSearch()"></button>
 		<button id="bt_list" onclick="subList()"></button>
@@ -371,44 +384,44 @@
 <div class="cons_box">
     <button id="bt_yaz" onclick="consbox_Close()">Esc</button>
     <div id="div_dah" class="cons_conteiner">
-        <div><img src="iko/brans/kard.png"><label for="chlb_K">Kardiyo</label><input id="chlb_K" type="checkbox" data-key="k" data-info="K"></div>
-        <div><img src="iko/brans/nor.png"><label for="chlb_N">Nöroloji</label><input id="chlb_N" type="checkbox" data-key="n" data-info="N"></div>
-        <div><img src="iko/brans/gog.png"><label for="chlb_G">Göğ.Hst</label><input id="chlb_G" type="checkbox" data-key="g" data-info="G"></div>
-        <div><img src="iko/brans/dah.png"><label for="chlb_D">Dahiliye</label><input id="chlb_D" type="checkbox" data-key="d" data-info="D"></div>
-        <div><img src="iko/brans/gas.png"><label for="chlb_Gt">Gastroent.</label><input id="chlb_Gt" type="checkbox" data-key="t" data-info="Gt"></div>
-        <div><img src="iko/brans/nef.png"><label for="chlb_Nf">Nefroloji</label><input id="chlb_Nf" type="checkbox" data-key="f" data-info="Nf"></div>
-        <div><label class="lb_key" for="chlb_E">Endokrinoloji</label><input id="chlb_E" type="checkbox" data-key="e" data-info="E"></div>
-        <div><label class="lb_key" for="chlb_A">Anestezi</label><input id="chlb_A" type="checkbox" data-key="a" data-info="A"></div>
-        <div><img src="iko/brans/enf.png"><label for="chlb_İ">İntaniye</label><input id="chlb_İ" type="checkbox" data-key="i" data-info="İ"></div>
-        <div><img src="iko/brans/psi.png"><label for="chlb_Ps">Psikiyatri</label><input id="chlb_Ps" type="checkbox" data-key="p" data-info="Ps"></div>
+        <div><img src="iko/brans/kard.png"><label for="chlb_K">Kardiyo</label><input id="chlb_K" type="checkbox" data-info="K"></div>
+        <div><img src="iko/brans/nor.png"><label for="chlb_N">Nöroloji</label><input id="chlb_N" type="checkbox" data-info="N"></div>
+        <div><img src="iko/brans/gog.png"><label for="chlb_G">Göğ.Hst</label><input id="chlb_G" type="checkbox" data-info="G"></div>
+        <div><img src="iko/brans/dah.png"><label for="chlb_D">Dahiliye</label><input id="chlb_D" type="checkbox" data-info="D"></div>
+        <div><img src="iko/brans/gas.png"><label for="chlb_Gt">Gastroent.</label><input id="chlb_Gt" type="checkbox" data-info="Gt"></div>
+        <div><img src="iko/brans/nef.png"><label for="chlb_Nf">Nefroloji</label><input id="chlb_Nf" type="checkbox" data-info="Nf"></div>
+        <div><label class="lb_key" for="chlb_E">Endokrinoloji</label><input id="chlb_E" type="checkbox" data-info="E"></div>
+        <div><label class="lb_key" for="chlb_A">Anestezi</label><input id="chlb_A" type="checkbox" data-info="A"></div>
+        <div><img src="iko/brans/enf.png"><label for="chlb_İ">İntaniye</label><input id="chlb_İ" type="checkbox" data-info="İ"></div>
+        <div><img src="iko/brans/psi.png"><label for="chlb_Ps">Psikiyatri</label><input id="chlb_Ps" type="checkbox" data-info="Ps"></div>
         <div><label class="lb_key" for="chlb_On">Onkoloji</label><input id="chlb_On" type="checkbox" data-info="On"></div>
         <div><img src="iko/brans/ped.png"><label for="chlb_Ch">Çoc.Has</label><input id="chlb_Ch" type="checkbox" data-info="Ch"></div>
 	</div>
 	<div id="div_cer" class="cons_conteiner">
-        <div><img src="iko/brans/gen.png"><label for="chlb_Gc">Gen.Cerr</label><input id="chlb_Gc" type="checkbox" data-key="c" data-info="Gc"></div>
-        <div><img src="iko/brans/gogc.png"><label for="chlb_Ğc">Göğ.Cerr</label><input id="chlb_Ğc" type="checkbox" data-key="ğ" data-info="Ğc"></div>
-        <div><img src="iko/brans/nrs.png"><label for="chlb_Bc">NRŞ</label><input id="chlb_Bc" type="checkbox" data-key="b" data-info="Bc"></div>
-        <div><img src="iko/brans/ort.png"><label for="chlb_O">Ortopedi</label><input id="chlb_O" type="checkbox" data-key="o" data-info="O"></div>
-        <div><label class="lb_key" for="chlb_Çc">Çoc.Cerr.</label><input id="chlb_Çc" type="checkbox" data-key="ç" data-info="Çc"></div>
+        <div><img src="iko/brans/gen.png"><label for="chlb_Gc">Gen.Cerr</label><input id="chlb_Gc" type="checkbox" data-info="Gc"></div>
+        <div><img src="iko/brans/gogc.png"><label for="chlb_Ğc">Göğ.Cerr</label><input id="chlb_Ğc" type="checkbox" data-info="Ğc"></div>
+        <div><img src="iko/brans/nrs.png"><label for="chlb_Bc">NRŞ</label><input id="chlb_Bc" type="checkbox" data-info="Bc"></div>
+        <div><img src="iko/brans/ort.png"><label for="chlb_O">Ortopedi</label><input id="chlb_O" type="checkbox" data-info="O"></div>
+        <div><label class="lb_key" for="chlb_Çc">Çoc.Cerr.</label><input id="chlb_Çc" type="checkbox" data-info="Çc"></div>
         <div><label class="lb_key" for="chlb_Pc">PRC</label><input id="chlb_Pc" type="checkbox" data-info="Pc"></div>
-        <div><img src="iko/brans/kvc.png"><label for="chlb_Kv">KVC</label><input id="chlb_Kv" type="checkbox" data-key="v" data-info="Kv"></div>
+        <div><img src="iko/brans/kvc.png"><label for="chlb_Kv">KVC</label><input id="chlb_Kv" type="checkbox" data-info="Kv"></div>
         <div><img src="iko/brans/kbb.png"><label for="chlb_Kb">KBB</label><input id="chlb_Kb" type="checkbox" data-info="Kb"></div>
-        <div><img src="iko/brans/goz.png"><label for="chlb_Gz">Göz</label><input id="chlb_Gz" type="checkbox" data-key="z" data-info="Gz"></div>
-		<div><label class="lb_key" for="chlb_U">Üroloji</label><input id="chlb_U" type="checkbox" data-key="ü" data-info="U"></div>
+        <div><img src="iko/brans/goz.png"><label for="chlb_Gz">Göz</label><input id="chlb_Gz" type="checkbox" data-info="Gz"></div>
+		<div><label class="lb_key" for="chlb_U">Üroloji</label><input id="chlb_U" type="checkbox" data-info="U"></div>
         <div><label class="lb_key" for="chlb_Kh">KHD</label><input id="chlb_Kh" type="checkbox" data-info="Kh"></div>
     </div>
 </div>
 
-
-<div id="alert_pop" style>
+<div id="alert_pop">
     <p id="alr_pop">x</p>
-</div>
-<div id="alert_pop2" style>
-    <p id="alr_pop2">x</p>
-	<div class="cls_ext">
+	<div id="div_but">
 		<button id="bt_ava"></button>
-		<input type="text" id="tx_hour" onfocus="this.select()" maxlength="2">
-		<input type="text" id="tx_min" onfocus="this.select()" maxlength="2">
+		<div id="div_time">
+			<input type="text" id="tx_hour" onfocus="this.select()" maxlength="2">
+			<input type="text" id="tx_min" onfocus="this.select()" maxlength="2">
+			<img id="bt_1dusur" style="cursor: pointer;" onclick="gelis_saati_yuvarla()">
+			<img id="bt_5ekle" onclick="taburcu_saati_yuvarla()">
+		</div>
 	</div>
 </div>
 
@@ -517,6 +530,20 @@
     <pre id="dosOutput"></pre>
   </div>
 </div>
+
+<div id="popp_bg">
+  <div id="popp_box">
+    <div id="popp_msg_wrap">
+      <div id="popp_msg">Mesaj</div>
+      <img id="popp_img" src="" alt="" />
+    </div>
+    <div class="popp_buttons">
+      <button id="popp_yes">Yes</button>
+      <button id="popp_no">No</button>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>
