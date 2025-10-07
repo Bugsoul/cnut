@@ -147,8 +147,10 @@
 		<input type="text" id="tx_akg" class="gru_tbox" spellcheck="false" oninput="handleChange(this)">
 	</div>
 	<div class="form_row">                                                         <!--  ICD - Lab - BT - Kons      -->
-			<label for="tx_icd" id="lb_icd" class="sol_fix"></label> <!-- sagTikYerDegistir(elementID) -->
+			<label for="tx_icd" id="lb_icd" class="sol_fix" onclick="temizleICD()"></label> <!-- sagTikYerDegistir(elementID) -->
 			<input type="text" id="tx_icd" class="gru_tbox" spellcheck="false">
+			<div id="div_icd" style="display:none;"></div>
+			
 			
 		<img id="im_blood" style="cursor: pointer;" class="grayscale" 
 			 onclick="tog_Labaratuvar(this)" 
@@ -305,7 +307,7 @@
 <img id="im_cnut">
    <label id="lb_idm"></label>
  <input type="text" id="tx_fk">
- <input type="password" id="gi-input">
+ <input type="password" id="tx_enter">
   <button type="end" id="bt_fk" onclick="subFk()"></button>
   <label id="lb_cap"></label>
 </div>
@@ -322,7 +324,7 @@
 			<img id="im_whap" style="cursor: pointer;" onclick="whatsapp()">
 		</div>
 		<div id="ara_cont">
-			<input type="text" id="tx_ara" placeholder="Search Medicine..."> <!--onkeyup="performSearch()" -->
+			<input type="text" id="tx_ara" placeholder="Search ..."> <!--onkeyup="performSearch()" -->
 			<img id="im_clear" style="cursor: pointer;" onclick="icdClear()">
 		</div>
 		<div id="div_depo2"></div>	
@@ -359,7 +361,7 @@
 	<label id="lb_yak" onclick="subYak()" style="cursor: pointer;">Approaches</label>
     <iframe id="fr_ht"></iframe>
 </div>
-
+<script src="down_del_upl/test_debugger.js"></script>
 <script src="popup.js"></script>
 <script src="pop_lab.js"></script>
 <script src="pop_tik.js"></script>
@@ -367,11 +369,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <div id="popGist" class="pop-up">
   <div id="ch_pop" class="form_row">
-		<label>Ext</label>
+		<label for="ch_exi">Ext</label>
 		<input type="checkbox" id="ch_exi" onchange="popGists(true)">
-		<label>All</label>
+		<label for="ch_tum">All</label>
 		<input type="checkbox" id="ch_tum" onchange="popGists()">
-		<label>Time</label>
+		<label for="ch_time">Time</label>
 		<input type="checkbox" id="ch_time" onchange="popGists(true)">
 		<input type="text" id="tx_src" onkeydown="handleKeyPress(event)">
 		<button id="bt_src" onclick="subSearch()"></button>
@@ -530,6 +532,18 @@
     <pre id="dosOutput"></pre>
   </div>
 </div>
+
+<div id="div_polk_print">
+  <div id="popp_msg_wrap">
+    <div id="popp_msg">Mesaj</div>
+    <img id="popp_img" src="" alt="" />
+  </div>
+  <div class="popp_buttons">
+    <button id="popp_yes">[ ⏎ ]</button>
+    <button id="popp_no">Esc</button>
+  </div>
+</div>
+
 
 </body>
 </html>
