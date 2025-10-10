@@ -48,6 +48,18 @@
     align-content: stretch;
   }
 
+#birimGroup {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 sütun */
+  gap: 6px;
+}
+
+#birimGroup button {  /* özel olarak grid yapıldığı için yani flex değil artık, alttaki genel buton kodu işlemez */
+  width: 100%; 
+  height: 100%; 
+  flex: none;    /* olası miras etkilerini kaldırır */
+}
+
   #orangeGroup {
     margin-top: 10px;
     display: flex;
@@ -92,6 +104,9 @@
 
   .orangeBtn { background-color: #6c4b2e; }
   .orangeBtn:hover { background-color: #7a5b3a; }
+  
+  .hazirDoz { background-color: #517d06; }
+  .hazirDoz:hover { background-color: #73ab13; }
 
   /* Alt bölüm */
   #bottom {
@@ -145,6 +160,7 @@
 <div id="panel">
   <div id="topGroups">
     <div class="group" id="grayGroup"></div>
+	<div class="group" id="birimGroup"></div>
     <div class="group" id="greenGroup"></div>
     <div class="group" id="brownGroup"></div>
   </div>
@@ -166,12 +182,28 @@
 const ta = document.getElementById("ta_medi");
 
 /* --- Buton grupları --- */
+const hazirDoz = [
+  "avil","beloc","contramal","desal","diazem","diltizem","keppra",
+  "depakin","fenitoin","krs.insülin","metpamid","pantpas","perlinganit",
+  "ventolin","zofran"
+];
+
 const buttons = {
   gray:  ["1","2","3","4","5","7","10","12","15","100","250","300","500","1000","2000"],
-  green: ["amp","U","mg","cc","SF","%5 Dx","%3", "0,45"],
-  brown: ["IM", "IV", "inf", "inh", "PO", "+",","],
-  orange: ["avil","beloc","combivent","cordarone","coraspirin", "decort","desal","diazem","diltizem", "dormicum", "esmelol", "K-vit","keppra", "depakin", "fenitoin", "krs.insülin","metpamid","pantpas","perlinganit","tetanoz", "NaHCO3","ventolin", "zofran"]
+  birim: ["amp","U","mg","cc","gr"],
+  green: ["SF","%5 Dx","%3","0,45"],
+  brown: ["IM","IV","inf","inh","PO","+",","],
+  orange: [
+    "combivent","cordarone","coraspirin","decort","dormicum","esmelol",
+    "K-vit","tetanoz","NaHCO3",
+    ...hazirDoz
+  ].sort((a, b) => a.localeCompare(b, 'tr')) // 🔹 Türkçe alfabe sıralaması
 };
+
+
+const full_order = [
+"1amp metpamid 100cc SF IV inf", "1amp diltizem 100cc SF IV 5dk inf", "1amp beloc 100cc SF IV 15dk inf", "1mp perlinganit 100cc SF (4cc puşe, 5cc/st IV inf)", "1amp pantpas IV puşe", "10U krs.insülin IV puşe", "1amp ventolin inh", "1amp combivent inh", "1amp zofran IV puşe", "1amp avil 100cc SF IV inf", "keppra 1500mg 250cc SF/1st", "depakin 2000mg 250cc SF/30dk", "fenitoin 1000mg 250cc SF/30dk", "1amp contramal 100cc SF IV inf", "1amp desal IV puşe", "1amp/10mg diazem 100cc SF IV inf", "1amp/25mg diltizem 100cc SF IV 10dk inf"
+];
 
 /* --- Butonları oluştur --- */
 Object.entries(buttons).forEach(([color, items]) => {
@@ -180,9 +212,35 @@ Object.entries(buttons).forEach(([color, items]) => {
     const b = document.createElement("button");
     b.textContent = label;
     b.classList.add(color === "orange" ? "blueBt" : color);
-    b.addEventListener("click", () => {
-      ta.value += (ta.value ? " " : "") + label;
-    });
+	if (hazirDoz.includes(label)) b.classList.add("hazirDoz");
+
+
+b.addEventListener("click", () => {
+  const val = ta.value.trim();
+
+  // --- ORANGE grubu özel davranışı ---
+  if (color === "orange") {
+    // Eğer textarea boş ya da virgül ile bitiyorsa
+    if (!val || val.endsWith(",")) {
+      const match = full_order.find(f => f.toLowerCase().includes(label.toLowerCase()));
+      if (match) {
+        // Başına fazladan virgül koymadan ekle
+        ta.value = ta.value.trimEnd();
+        if (ta.value && !ta.value.endsWith(",")) ta.value += ",";
+        ta.value += (ta.value ? " " : "") + match + ", ";
+        return;
+      }
+    }
+  }
+
+  // --- Diğer grupların varsayılan davranışı ---
+  if (color === "birim") {
+    ta.value += label;
+  } else {
+    ta.value += (ta.value ? " " : "") + label;
+  }
+});
+
     group.appendChild(b);
   });
 });
@@ -209,22 +267,12 @@ document.getElementById("back").addEventListener("click", () => {
 });
 
 document.getElementById("sent").addEventListener("click", () => {
-  // Cihaz kontrolü
-  const userAgent = navigator.userAgent.toLowerCase();
-  const isAndroid = userAgent.includes('android');
-  
-  if (isAndroid) {
-    localStorage.setItem('med_tedavi', ta.value);
-	window.location.href = "../Cnut_Android.html";
-  } else { // windows cihaz ise
 	localStorage.setItem('med_tedavi', ta.value);
 	localStorage.setItem('hideMedDiv', 'true');// iframe içinden, ana sayfadaki 'div' öğesini gizleme
         setTimeout(() => {
-            history.back(); // bir önceki sayfaya güvenli geri dönüş
+            //history.back(); // bir önceki sayfaya güvenli geri dönüş
         }, 100); // küçük gecikme ile localStorage'ın kaydedilmesini garanti et
 	 console.log("sent med.tedavi");
-  }
- 
 });
 </script>
 
