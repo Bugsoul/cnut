@@ -377,10 +377,11 @@
 		<input type="checkbox" id="ch_time" onchange="popGists(true)">
 		<input type="text" id="tx_src" onkeydown="handleKeyPress(event)">
 		<button id="bt_src" onclick="subSearch()"></button>
-		<button id="bt_list" onclick="subList()"></button>
+		<button id="bt_list" onclick="refreshGist()"></button>
 		<button id="bt_cik" onclick="subCik()">X</button>
   </div>
   <table id="tblGist"></table>
+  <img id="img_spin">
 </div>
 
 <div class="cons_box">
@@ -543,8 +544,6 @@
     <button id="popp_no">Esc</button>
   </div>
 </div>
-
-<img id="img_spin">
 
 </body>
 </html>
