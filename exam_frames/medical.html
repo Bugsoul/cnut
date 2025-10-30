@@ -31,14 +31,6 @@
     box-sizing: border-box;
   }
 
-  /* Üst ve orta buton grupları */
-  #topGroups {
-    display: flex;
-    gap: 10px;
-    flex: 1 1 auto; /* kalan alanı kaplasın */
-    align-items: stretch;
-  }
-
   .group {
     flex: 1;
     display: flex;
@@ -48,31 +40,38 @@
     align-content: stretch;
   }
 
-#birimGroup {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 sütun */
-  gap: 6px;
-}
+  #birimGroup {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
 
-#birimGroup button {  /* özel olarak grid yapıldığı için yani flex değil artık, alttaki genel buton kodu işlemez */
-  width: 100%; 
-  height: 100%; 
-  flex: none;    /* olası miras etkilerini kaldırır */
-}
+  #birimGroup button {
+    width: 100%; 
+    height: 100%; 
+    flex: none;
+  }
 
   #orangeGroup {
     margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
     gap: 6px;
-    justify-content: center;
-    flex: 1 1 auto; /* otomatik büyüsün */
-    align-content: stretch;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-auto-rows: 1fr;
+    height: 100%;
+    width: 100%;  
   }
 
-  /* Genel buton stili */
+  #bottomGroups {
+    display: flex;
+    gap: 10px;
+    flex: 0 0 20%;
+    align-items: stretch;
+    margin-top: 10px;
+  }
+
   button {
-    flex: 1 1 auto;  /* butonlar satır yüksekliğine uyumlu */
+    flex: 1 1 auto;
     min-width: 50px;
     padding: 6px;
     border: none;
@@ -82,51 +81,60 @@
     font-weight: bold;
     background-color: #3b3b3b;
     transition: background-color 0.15s, transform 0.1s;
-	font-size: 22px;
+    font-size: 22px;
   }
 
   button:hover {
     transform: scale(1.05);
   }
 
-  /* Mat buton renkleri */
-  .gray  { background-color: #656666; }
-  .gray:hover  { background-color: #9a9b9c; }
+.gray  { background-color: #555555; }      /* daha mat gri */
+.gray:hover  { background-color: #707070; }
 
-  .green { background-color: #3f5a47; }
-  .green:hover { background-color: #4f6a56; }
+.green { background-color: #35513d; }     /* mat yeşil */
+.green:hover { background-color: #425547; }
 
-  .brown { background-color: #63472e; }
-  .brown:hover { background-color: #826851; }
+.brown { background-color: #5c4c3f; }     /* mat kahverengi */
+.brown:hover { background-color: #6d5c4f; }
 
-  .blueBt { background-color: #395e6b; }
-  .blueBt:hover { background-color: #5a8899; }
+.grayBt { background-color: #364146; }     /* mat gri buton */
+.grayBt:hover { background-color: #4a555b; }
 
-  .orangeBtn { background-color: #6c4b2e; }
-  .orangeBtn:hover { background-color: #7a5b3a; }
-  
-  .hazirDoz { background-color: #517d06; }
-  .hazirDoz:hover { background-color: #73ab13; }
+.hazirDoz { background-color: #304d57; }   /* mat mavi-yeşil */
+.hazirDoz:hover { background-color: #3b5a63; }
 
-  /* Alt bölüm */
+
   #bottom {
     display: flex;
     margin-top: 10px;
     gap: 6px;
-    flex: 0 0 auto; /* sabit yüksekliğe uyumlu */
+    flex: 0 0 25%;
   }
 
-  textarea {
-    height: 200px; 
+  #ta_medi {
+    height: 100px; 
     width: 100%;
     background-color: #1c1c1c;
     color: #fff;
     border: 1px solid #555;
     border-radius: 8px;
     padding: 6px;
-    resize: none;
-    font-size: 14px;
+    font-size: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+
+  #ta_medi:focus {
+    outline: 2px solid #666;
+  }
+
+  .highlight {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+    padding: 0 2px;
+    border-radius: 3px;
   }
 
   #sideButtons {
@@ -153,25 +161,43 @@
   #sideButtons button:hover {
     opacity: 0.85;
   }
+
+  #div_tit {
+    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #im_tik {
+    width: 30px;
+    height: 30px;
+  }
 </style>
 </head>
 <body>
 
 <div id="panel">
-  <div id="topGroups">
+  <div id="div_tit">
+    <img id="im_tik" src="../iko/r_click.png">
+    <label id="lb_inf2"> : dozu ile ekler</label>
+  </div>
+
+  <div id="orangeGroup"></div>
+  <div id="bottomGroups">
     <div class="group" id="grayGroup"></div>
-	<div class="group" id="birimGroup"></div>
+    <div class="group" id="birimGroup"></div>
     <div class="group" id="greenGroup"></div>
     <div class="group" id="brownGroup"></div>
   </div>
 
-  <div id="orangeGroup"></div>
-
   <div id="bottom">
-    <textarea id="ta_medi"></textarea>
+    <div id="ta_medi" contenteditable="true"></div>
     <div id="sideButtons">
       <button id="copy">Copy</button>
       <button id="back">Back</button>
+    </div>
+    <div id="sideButtons">
       <button id="del">Del</button>
       <button id="sent">Add</button>
     </div>
@@ -181,11 +207,11 @@
 <script>
 const ta = document.getElementById("ta_medi");
 
-/* --- Buton grupları --- */
 const hazirDoz = [
-  "avil","beloc","contramal","desal","diazem","diltizem","kapril", "keppra",
-  "depakin","fenitoin","krs.insülin","metpamid","pantpas","perlinganit",
-  "ventolin","zofran"
+  "avil","adenozin", "beloc", "combivent", "contramal", "cordarone", "desal","dicloron",
+  "diazem","diltizem","esmelol","kapril", "keppra","depakin","fenitoin","krs.insülin",
+  "metpamid", "muscoril", "pantpas","perlinganit", "ventolin","zofran","NaHCO3",
+  "dormicum","tetanoz","dramamine"
 ];
 
 const buttons = {
@@ -193,86 +219,106 @@ const buttons = {
   birim: ["amp","U","mg","cc","gr"],
   green: ["SF","%5 Dx","%3","0,45"],
   brown: ["IM","IV","inf","puşe", "inh","PO","+",","],
-  orange: [
-    "combivent","cordarone","coraspirin","decort","dormicum","esmelol",
-    "K-vit","tetanoz","NaHCO3",
-    ...hazirDoz
-  ].sort((a, b) => a.localeCompare(b, 'tr')) // 🔹 Türkçe alfabe sıralaması
+  orange: ["coraspirin","decort", "K-vit", ...hazirDoz].sort((a,b)=>a.localeCompare(b,'tr'))
 };
 
-
 const full_order = [
-"1amp metpamid 100cc SF IV inf", "1amp diltizem 100cc SF IV 5dk inf", "1amp beloc 100cc SF IV 15dk inf", "1mp perlinganit 100cc SF (4cc puşe, 5cc/st IV inf)", "1amp pantpas IV puşe", "10U krs.insülin IV puşe", "1amp ventolin inh", "1amp combivent inh", "1amp zofran IV puşe", "1amp avil 100cc SF IV inf", "keppra 1500mg 250cc SF/1st", "depakin 2000mg 250cc SF/30dk", "fenitoin 1000mg 250cc SF/30dk", "1amp contramal 100cc SF IV inf", "1amp desal IV puşe", "1amp/10mg diazem 100cc SF IV inf", "1amp/25mg diltizem 100cc SF IV 10dk inf", "Kapril 25mg dil altı"
+"1amp metpamid 100cc SF IV inf", "1amp dramamine 100cc SF IV inf", "6mg adenozin IV puşe",
+"1amp diltizem 100cc SF IV 5dk inf", "1amp beloc 100cc SF IV 15dk inf",
+"1mp perlinganit 100cc SF (4cc puşe, 5cc/st IV inf)", "1amp pantpas IV puşe",
+"10U krs.insülin IV puşe", "1amp ventolin inh", "1amp combivent inh",
+"1amp zofran IV puşe", "1amp avil 100cc SF IV inf", "keppra 1500mg 250cc SF/1st",
+"depakin 2000mg 250cc SF/30dk", "fenitoin 1000mg 250cc SF/30dk", "1amp contramal 100cc SF IV inf",
+"1amp desal IV puşe", "1amp/10mg diazem 100cc SF IV inf", "1amp/25mg diltizem 100cc SF IV 10dk inf",
+"25mg kapril dil altı", "1amp dicloron IN", "1amp muscoril IM",
+"300mg cordarone IV puşe", "esmelol 4cc puşe, 8cc/st IV inf",
+"10amp NaHCO3 IV puşe", "3mg dormicum IV puşe", "1 doz tetanoz aşısı IM"
 ];
 
-/* --- Butonları oluştur --- */
+// --- Butonlar oluşturuluyor
 Object.entries(buttons).forEach(([color, items]) => {
   const group = document.getElementById(color + "Group") || document.getElementById("orangeGroup");
   items.forEach(label => {
     const b = document.createElement("button");
     b.textContent = label;
-    b.classList.add(color === "orange" ? "blueBt" : color);
-	if (hazirDoz.includes(label)) b.classList.add("hazirDoz");
+    b.classList.add(color === "orange" ? "grayBt" : color);
+    if (hazirDoz.includes(label)) b.classList.add("hazirDoz");
 
-
-b.addEventListener("click", () => {
-  const val = ta.value.trim();
-
-  // --- ORANGE grubu özel davranışı ---
-  if (color === "orange") {
-    // Eğer textarea boş ya da virgül ile bitiyorsa
-    if (!val || val.endsWith(",")) {
-      const match = full_order.find(f => f.toLowerCase().includes(label.toLowerCase()));
-      if (match) {
-        // Başına fazladan virgül koymadan ekle
-        ta.value = ta.value.trimEnd();
-        if (ta.value && !ta.value.endsWith(",")) ta.value += ",";
-        ta.value += (ta.value ? " " : "") + match + ", ";
-        return;
+    b.addEventListener("click", (e) => {
+      const sel = window.getSelection();
+      const range = sel.rangeCount ? sel.getRangeAt(0) : null;
+      const node = document.createTextNode((ta.innerText ? " " : "") + label);
+      if (range) {
+        range.deleteContents();
+        range.insertNode(node);
+        range.setStartAfter(node);
+        range.setEndAfter(node);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        ta.appendChild(node);
       }
-    }
-  }
+      ta.focus();
+      highlightNumbers();
+    });
 
-  // --- Diğer grupların varsayılan davranışı ---
-  if (color === "birim") {
-    ta.value += label;
-  } else {
-    ta.value += (ta.value ? " " : "") + label;
-  }
-});
+    b.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      if (color === "orange") {
+        const match = full_order.find(f => f.toLowerCase().includes(label.toLowerCase()));
+        if (match) ta.innerHTML += (ta.innerHTML ? ", " : "") + match + ", ";
+        highlightNumbers();
+      }
+    });
 
     group.appendChild(b);
   });
 });
 
-/* --- Alt butonlar --- */
+// --- Ana fonksiyon: birleşik rakamları vurgula
+function highlightNumbers() {
+  const sel = window.getSelection();
+  const cursorRange = sel.rangeCount ? sel.getRangeAt(0) : null;
+
+  let html = ta.innerText;
+  html = html.replace(/(\d+(?=\s*[a-zA-Z%]))/g, '<span class="highlight">$1</span>');
+  ta.innerHTML = html;
+
+  if (cursorRange) sel.removeAllRanges();
+}
+
+// --- tıklama ile seçimi aktive et
+ta.addEventListener("click", e => {
+  if (e.target.classList.contains("highlight")) {
+    const range = document.createRange();
+    range.selectNodeContents(e.target);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+});
+
+ta.addEventListener("input", highlightNumbers);
+
+// --- Diğer butonlar
 document.getElementById("copy").addEventListener("click", () => {
-  const val = ta.value;
-  sessionStorage.setItem("med_tedavi", val);
-  ta.select();
-  document.execCommand("copy");
+  navigator.clipboard.writeText(ta.innerText);
 });
 
-document.getElementById("del").addEventListener("click", () => {
-  ta.value = "";
-});
+document.getElementById("del").addEventListener("click", () => ta.innerHTML = "");
 
-/* Virgüle kadar silme */
 document.getElementById("back").addEventListener("click", () => {
-  let val = ta.value.trim();
-  if (!val) return;
-  const lastComma = val.lastIndexOf(",");
-  if (lastComma === -1) ta.value = "";
-  else ta.value = val.substring(0, lastComma).trim();
+  let text = ta.innerText.trim();
+  if (!text) return;
+  const lastComma = text.lastIndexOf(",");
+  ta.innerText = lastComma === -1 ? "" : text.substring(0, lastComma).trim();
+  highlightNumbers();
 });
 
 document.getElementById("sent").addEventListener("click", () => {
-	localStorage.setItem('med_tedavi', ta.value);
-	localStorage.setItem('hideMedDiv', 'true');// iframe içinden, ana sayfadaki 'div' öğesini gizleme
-        setTimeout(() => {
-            //history.back(); // bir önceki sayfaya güvenli geri dönüş
-        }, 100); // küçük gecikme ile localStorage'ın kaydedilmesini garanti et
-	 console.log("sent med.tedavi");
+  localStorage.setItem('med_tedavi', ta.innerText);
+  localStorage.setItem('hideMedDiv', 'true');
+  console.log("sent med.tedavi");
 });
 </script>
 
