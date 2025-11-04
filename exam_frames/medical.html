@@ -211,7 +211,7 @@ const hazirDoz = [
   "avil","adenozin", "beloc", "combivent", "contramal", "cordarone", "desal","dicloron",
   "diazem","diltizem","esmelol","kapril", "keppra","depakin","fenitoin","krs.insülin",
   "metpamid", "muscoril", "pantpas","perlinganit", "ventolin","zofran","NaHCO3",
-  "dormicum","tetanoz","dramamine"
+  "dormicum","tetanoz","dramamine", "coraspirin", "tetanoz"
 ];
 
 const buttons = {
@@ -219,7 +219,7 @@ const buttons = {
   birim: ["amp","U","mg","cc","gr"],
   green: ["SF","%5 Dx","%3","0,45"],
   brown: ["IM","IV","inf","puşe", "inh","PO","+",","],
-  orange: ["coraspirin","decort", "K-vit", ...hazirDoz].sort((a,b)=>a.localeCompare(b,'tr'))
+  orange: ["decort", "K-vit", ...hazirDoz].sort((a,b)=>a.localeCompare(b,'tr'))
 };
 
 const full_order = [
@@ -230,9 +230,9 @@ const full_order = [
 "1amp zofran IV puşe", "1amp avil 100cc SF IV inf", "keppra 1500mg 250cc SF/1st",
 "depakin 2000mg 250cc SF/30dk", "fenitoin 1000mg 250cc SF/30dk", "1amp contramal 100cc SF IV inf",
 "1amp desal IV puşe", "1amp/10mg diazem 100cc SF IV inf", "1amp/25mg diltizem 100cc SF IV 10dk inf",
-"25mg kapril dil altı", "1amp dicloron IN", "1amp muscoril IM",
-"300mg cordarone IV puşe", "esmelol 4cc puşe, 8cc/st IV inf",
-"10amp NaHCO3 IV puşe", "3mg dormicum IV puşe", "1 doz tetanoz aşısı IM"
+"25mg kapril dil altı", "1amp dicloron IM", "1amp muscoril IM",
+"300mg cordarone IV puşe", "esmelol 4cc puşe, 8cc/st IV inf", "tetanoz 0,5cc IM"
+"10amp NaHCO3 IV puşe", "3mg dormicum IV puşe", "1 doz tetanoz aşısı IM", "coraspirin 300mg PO"
 ];
 
 // --- Butonlar oluşturuluyor
