@@ -316,8 +316,8 @@ document.getElementById("back").addEventListener("click", () => {
 });
 
 document.getElementById("sent").addEventListener("click", () => {
-  localStorage.setItem('med_tedavi', ta.innerText);
-  localStorage.setItem('hideMedDiv', 'true');
+  localStorage.setItem('med_tedavi', ta.innerText); // main.js ye aktarmak için orada da dinleyici olacak
+  localStorage.setItem('hideMedDiv', 'true'); 
   console.log("sent med.tedavi");
 });
 </script>
