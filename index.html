@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="main">
-	<div class="form_row">
+	<div class="form_row" id="first">
 		<label for="tx_name" id="lb_has"></label>
 		<input type="text" id="tx_name" spellcheck="false" autocomplete="off">
 		<img id="im_sevk" style="cursor: pointer;" onclick="pop_Sevk()"><!-- onclick="document.getElementById('ch_sevk').click() -->
@@ -50,7 +50,7 @@
 			<option value="2"> Red</option>
 		</select>
 </div>
-	<div class="form_row">                                                                                 <!--  Vitaller      -->
+	<div class="form_row" id="id_vits">                                                                                 <!--  Vitaller      -->
 		<label id="lb_vitn2" for="ch_vitn2">N</label>
 		<input type="checkbox" id="ch_vitn2"/>
 		<label for="tx_TA" id="lb_ta"></label>
@@ -131,7 +131,7 @@
 		<input type="text" id="tx_dig" class="gru_tbox" spellcheck="false" oninput="handleChange(this)">
 		<label for="ch_rt"  id="lb_rt"></label>
 		<input type="checkbox" id="ch_rt" onchange="tog_rt()">
-		<input type="text" id="tx_rt" class="gru_tbox" spellcheck="false" oninput="handleChange(this)">
+		<input type="text" id="tx_rt" class="gru_tbox" spellcheck="false" oninput="handleChange(this)" placeholder="💩">
 		<img id="im_fm" style="cursor: pointer;" onclick="kontrolFM()">
 	</div>
 	<div class="form_row">
@@ -203,31 +203,6 @@
 	
 		<div class="form_row"> 
 			<div class="form_dik" class="sol_fix">
-				<div id="div_acilir" class="div_folding">
-				  <button id="bt_set" onclick="togFolding('div_cont')">Discharge 🡺</button>
-				  <div id="div_cont" style="display: none;">				  
-					<div class="form_row">
-						<input type="checkbox" id="ch_nrm" onchange="togRapNrm()">
-						<label id="lb_ext2" for="ch_nrm">Results ✅</label>
-					</div>
-					<div class="form_row">
-						<input type="checkbox" id="ch_sgec" onchange="togSikgecti()">
-						<label id="lb_ext5" for="ch_sgec">Şikayet Ø</label>
-					</div>
-					<div class="form_row">
-						<input type="checkbox" id="ch_yedi" onchange="togYedicti()">
-						<label id="lb_ext6" for="ch_yedi">Walk Talk Eat ✅</label>
-					</div>	
-					<div class="form_row">
-						<input type="checkbox" id="ch_hos" onchange="togHosp(this)">
-						<label id="lb_ext4" for="ch_hos">had Hospitalized ✓</label>
-					</div>
-					<div class="form_row">
-						<input type="checkbox" id="ch_hos2" onchange="togHosp(this)">
-						<label id="lb_ext7" for="ch_hos2">Hospitalized ✓</label>
-					</div>						
-				  </div>
-				</div>
 				<div class="form_row">
 					<img id="im_copy" style="cursor: pointer;" onclick="subCopy2()">
 					<img id="im_plan" style="cursor: pointer;" onclick="tog_Plan()">
@@ -288,7 +263,7 @@
 		<label for="pcDen" id="custom_pcDen"></label>
 	</div>
 		
-	<div class="endi">   <!--                                                                      Son katman = Gist ID - Time  - Alert mgs     -->
+	<div class="endi" id="endi">   <!--                                                                      Son katman = Gist ID - Time  - Alert mgs     -->
 		<label id="lb_saat" onclick="tik_saat()"></label>
 		<label id="lb_gist"></label>
 		<label id="lb_upd"></label>
@@ -299,7 +274,8 @@
 			<span class="num_badge"></span>
 		</div>
 		<div id="alert_box"></div>
-	</div>	
+	</div>
+	<img id="img_spinM">
 </div>
 	<input type="password" id="ps_flu">
 
@@ -508,15 +484,21 @@
             <input type="checkbox" id="ch_tetkik4"/>
 			<input type="text" id="sonucInput" class="tx_sevk" spellcheck="false" placeholder="sonuçlar / x"/>
         </div>
-	<br><br><br>
-	
+	<br>
+
+	<div class="yatay">
+	<div id="div_onay" class="form_row">
+		<label class="lb_sabit" for="ch_askom">&nbsp;Askom :</label>
+		<input type="checkbox" id="ch_askom" checked/>
+		<label class="lb_ara">|</label>
+		<label id="lb_onay" class="lb_sabit" for="ch_onay">Onay :</label>
+		<input type="checkbox" id="ch_onay"/>
+	</div></div><br>
 		
 	<div class="yatay">
 		<div id="div_onay" class="form_row">
 			<label for="doktorInput">&nbsp;Gönderen:</label>
 			<input type="text" id="doktorInput" class="tx_sevk" spellcheck="false" placeholder="acil hekimi"/>
-			<input type="checkbox" id="ch_onay"/>
-			<label id="lb_onay" class="lb_sabit" for="ch_onay">ONAY!</label>
 		</div>
 		<div id="div_tedD" class="form_row"><label  id="lb_sted" class="lb_sabit" for="ch_tedSil">Takip/Ted ✓</label>
 		<input type="checkbox" id="ch_tedSil">
