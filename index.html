@@ -185,10 +185,12 @@
 	<div class="form_row"> 
 		<div class="sol_fix">
 		<div class="form_dik">
-		<label for="ch_ted" id="lb_ted"></label>
-		<img id="im_cure" onclick="medTedavi()">
+			<div class="form_row">
+				<label for="ch_ted" id="lb_ted"></label>
+				<input type="checkbox" id="ch_ted" onchange="tog_ted()">
+			</div>
+			<img id="im_cure" onclick="medTedavi()">
 		</div>
-		<input type="checkbox" id="ch_ted" onchange="tog_ted()">
 		</div>
 		<textarea type="text" id="ta_ted" class="gru_tbox" spellcheck="false"></textarea>
 		<img id="im_hermes" style="cursor: pointer;" onclick="subDoc()">
