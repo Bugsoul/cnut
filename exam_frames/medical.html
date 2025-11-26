@@ -206,12 +206,13 @@
 
 <script>
 const ta = document.getElementById("ta_medi");
+ta.title = "Sarı arkaplan tıkla, seçili hale gelir.\nYeni değer tıkla değişir.";
 
 const hazirDoz = [
   "avil","adenozin", "beloc", "combivent", "contramal", "cordarone", "desal","dicloron",
   "diazem","diltizem","esmelol","kapril", "keppra","depakin","fenitoin","krs.insülin",
   "metpamid", "muscoril", "pantpas","perlinganit", "ventolin","zofran","NaHCO3",
-  "dormicum","tetanoz","dramamine", "coraspirin", "tetanoz"
+  "dormicum","tetanoz","dramamine", "coraspirin", "tetanoz", "parol", "buscopan", "transamin"
 ];
 
 const buttons = {
@@ -230,10 +231,13 @@ const full_order = [
 "1amp zofran IV puşe", "1amp avil 100cc SF IV inf", "keppra 1500mg 250cc SF/1st",
 "depakin 2000mg 250cc SF/30dk", "fenitoin 1000mg 250cc SF/30dk", "1amp contramal 100cc SF IV inf",
 "1amp desal IV puşe", "1amp/10mg diazem 100cc SF IV inf", "1amp/25mg diltizem 100cc SF IV 10dk inf",
-"25mg kapril dil altı", "1amp dicloron IM", "1amp muscoril IM",
+"25mg kapril dil altı", "1amp dicloron IM", "1amp muscoril IM", "1amp buscopan 100cc SF IV inf",
 "300mg cordarone IV puşe", "esmelol 4cc puşe, 8cc/st IV inf", "tetanoz 0,5cc IM",
-"10amp NaHCO3 IV puşe", "3mg dormicum IV puşe", "1 doz tetanoz aşısı IM", "coraspirin 300mg PO"
+"10amp NaHCO3 IV puşe", "3mg dormicum IV puşe", "1 doz tetanoz aşısı IM", "coraspirin 300mg PO", "parol flk IV inf",
+"1gr (4amp) transamin 100cc SF/10dk IV inf"
 ];
+
+const lettersSeen = new Set();
 
 // --- Butonlar oluşturuluyor
 Object.entries(buttons).forEach(([color, items]) => {
@@ -242,6 +246,25 @@ Object.entries(buttons).forEach(([color, items]) => {
     const b = document.createElement("button");
     b.textContent = label;
     b.classList.add(color === "orange" ? "grayBt" : color);
+
+if (color === "orange") {
+  const first = label[0].toLocaleLowerCase("tr");
+
+  if (!lettersSeen.has(first)) {
+    lettersSeen.add(first);
+
+    // İlk harfi ayrı span ile stil veriyoruz
+    const firstChar = label[0].toLocaleUpperCase("tr");
+    const rest = label.slice(1);
+
+// font tipleri ilki yoksa diğeri gibi düşün
+    b.innerHTML = `
+      <span style="font-size:1.5em; color:#c7c583; font-weight:bold; font-family:'Comic Sans MS','Brush Script MT','Lucida Handwriting',cursive;">${firstChar}</span>${rest}
+    `;
+  }
+}
+
+	  
     if (hazirDoz.includes(label)) b.classList.add("hazirDoz");
 
     b.addEventListener("click", (e) => {
@@ -262,14 +285,28 @@ Object.entries(buttons).forEach(([color, items]) => {
       highlightNumbers();
     });
 
-    b.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      if (color === "orange") {
-        const match = full_order.find(f => f.toLowerCase().includes(label.toLowerCase()));
-        if (match) ta.innerHTML += (ta.innerHTML ? ", " : "") + match + ", ";
-        highlightNumbers();
+b.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  if (color === "orange") {
+    const match = full_order.find(f => f.toLowerCase().includes(label.toLowerCase()));
+    if (match) {
+      let content = ta.innerHTML.trim();
+
+      // Eğer içerik boş değil ve son karakter ',' değilse araya ', ' ekle
+      if (content && !content.endsWith(",")) {
+        content += ", ";
+      } else if (content) {
+        // son karakter ',' ise direkt boşluk ekle
+        content += " ";
       }
-    });
+
+      // match ekle ve sonuna virgül bırak
+      ta.innerHTML = content + match + ", ";
+      highlightNumbers();
+    }
+  }
+});
+
 
     group.appendChild(b);
   });
