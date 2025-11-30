@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Buton Paneli</title>
+<link rel="stylesheet" type="text/css" href="medical_sty.css">
+
+</head>
+<body>
+
+<div id="panel">
+  <div id="div_tit">
+    <img id="im_tik">
+    <label id="lb_inf2"> : ilaç ismi ekler</label>
+  </div>
+
+  <div id="orangeGroup"></div>
+  <div id="bottomGroups">
+    <div class="group" id="grayGroup"></div>
+    <div class="group" id="birimGroup"></div>
+    <div class="group" id="greenGroup"></div>
+    <div class="group" id="brownGroup"></div>
+  </div>
+
+  <div id="bottom">
+    <div id="ta_medi" contenteditable="true"></div>
+    <div id="sideButtons">
+      <button id="copy">Copy</button>
+      <button id="back">Back</button>
+    </div>
+    <div id="sideButtons">
+      <button id="del">Del</button>
+      <button id="sent">Add</button>
+    </div>
+  </div>
+</div>
+<!-- Sağ tık ilaç resimleri kutusu -->
+<div id="drugImgBox"></div>
+
+<div id="imgModalOverlay">
+    <img id="imgModal">
+    <div id="imgCounter"></div>
+</div>
+
+
+
+<script src="medical_load.js"></script>
+</body>
+</html>
