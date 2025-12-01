@@ -184,16 +184,13 @@
                                                                                 <!--   Progres     -->
 	<div class="form_row"> 
 		<div class="sol_fix">
-		<div class="form_dik">
-			<div class="form_row">
+		<div class="form_row">
 				<label for="ch_ted" id="lb_ted"></label>
 				<input type="checkbox" id="ch_ted" onchange="tog_ted()">
-			</div>
-			<img id="im_cure" onclick="medTedavi()">
 		</div>
 		</div>
 		<textarea type="text" id="ta_ted" class="gru_tbox" spellcheck="false"></textarea>
-		<img id="im_hermes" style="cursor: pointer;" onclick="subDoc()">
+		<img id="im_hermes" style="cursor: pointer;" onclick="medTedavi()">
 	</div>	
 
 	<div class="form_row">                                                                                 <!--  Taburcu      -->
@@ -270,7 +267,7 @@
 		<label id="lb_gist"></label>
 		<label id="lb_upd"></label>
 		<img id="bt_Session" style="cursor: pointer;" class="grayscale" onclick="update_Session()">
-
+		<img id="bg_honey">
 		<div id="im_cont1" class="img_container" style="cursor: pointer;" onclick="tog_Issue_Alert()">
 			<img id="im_alert1" class="im_alert">
 			<span class="num_badge"></span>
@@ -333,12 +330,7 @@
 		</div>
 	</div>
 </div>
-<div id="algo_div">
-	<button id="bt_esc" onclick="ext_Algo()">X</button>
-	<label id="lb_med" onclick="subDoc()" style="cursor: pointer;">Medicament</label>
-	<label id="lb_yak" onclick="subYak()" style="cursor: pointer;">Approaches</label>
-    <iframe id="fr_ht"></iframe>
-</div>
+
 <script src="down_del_upl/test_debugger.js"></script>
 <script src="popup.js"></script>
 <script src="pop_lab.js"></script>
