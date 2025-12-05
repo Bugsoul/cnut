@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veri Toplama Sayfası</title>
+  <style>
+body {
+  background-color: #202123;
+  color: #cccccc;
+
+  transform-origin: top left;  /* Sol üst köşeden küçültme */
+  margin: 0;  /* Sayfa kenar boşluklarını kaldırır */
+  padding: 0;  /* Sayfa içi boşlukları kaldırır */
+  width: 100%;
+  height: 100%;
+}
+
+#img_container {
+  position: relative;
+  display: inline-block;
+}
+
+#img_container img {
+  max-width: 290px;
+  max-height: 445px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+    .clickable-area {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: blue;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .clickable-area:hover {
+      transform: scale(1.4);
+	  background-color: red;
+    }
+
+    /* Tablonun stilini belirle */
+    #tb_titles {
+      position: relative;
+      left: 0;
+      width: 70px;
+	  height: 445px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+		background-color: #373b3d;
+      text-align: center;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    td:hover {
+      background-color: #47555c;
+    }
+.yatay {
+    display: flex;
+    flex-direction: row;
+	align-items: center;
+	width: 99%;
+	margin-top: 5px;
+	 gap:5px;
+}
+.dikey {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 99%; 
+    gap: 5px;
+}
+
+#bt_jsondown {
+	margin-left: 5px;
+}
+#bt_jsdown {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+    /* Settings panel style */
+    #settings {
+      display: none; /* Initially hidden */
+      position: fixed;
+      right: 0;
+      top: 25%;
+      transform: translateY(-50%);
+      background-color: #333;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+	  width: 50%;
+    }
+
+    #settings label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #settings button {
+      margin-top: 10px;
+      display: block;
+    }
+
+    /* 3 dots button */
+    #tog_settings {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 24px;
+      color: #ffffff;
+      background-color: transparent;
+      border: none;
+	  width: 50px;
+	   z-index: 101;
+    }
+label {
+  font-size: 1.2em; /* Yazı boyutunu artır */
+  color: white; /* Yazı rengini beyaz yap */
+  margin-right: 5px; /* Label ile sonraki eleman arasına boşluk bırak */
+}
+
+#tx_bolge {
+  color: white;
+  font-size: 1.1em;
+  padding: 2px;
+  border: 1px solid #555;
+  border-radius: 5px;
+
+  background-color: #333;
+	  width: 100%;
+      height: 90px;
+    }
+
+#numberTableContainer {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%; /* Boyut %50 */
+  height: 40%;
+}
+#numberTable {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 sütun */
+  gap: 0px;
+  width: 100%;
+  height: 100%;
+}
+#numberTable div { /* düğmeler*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  font-size: 2.5rem;
+  cursor: pointer;
+  background-color: #49616b;
+  user-select: none;
+}
+#numberTable div:hover {
+  background-color: #d0d0d0;
+}
+
+#tbl_sekil, #tbl_yara {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 40%;
+}
+
+  #tbl_sekil td, #tbl_sekil th {
+    background-color: #8c3103;
+    color: white;
+    padding: 20px;
+    border: 1px solid #000;
+	font-size: 1.2rem;
+  }
+
+  #tbl_yara td, #tbl_yara th {
+    background-color: #560e7d;
+    color: white;
+    padding: 15px;
+    border: 1px solid #000;
+	font-size: 1.2rem;
+  }
+#bt_half, #bt_num, #bt_sekil, #bt_yara, #bt_clear, #bt_posta, #bt_copy {
+	margin-left: 5px;
+	width: 100%;
+    height: 30px;
+	color: white;
+}
+.dikey {
+	width: 20%;
+}
+#bt_half {
+  background-color: #6b7375;
+}
+#bt_num, #bt_copy {
+  background-color: #393c3d;
+}
+#bt_sekil {
+  background-color: #8c3103;
+}
+#bt_yara {
+  background-color: #560e7d;
+}
+#bt_clear {
+  background-color: #b87625;
+}
+#bt_posta {
+  background-color: #1c87ad;
+}
+/* Küçülüp büyüme kopyalandı efekt animasyonu */
+.shrink_grow {
+    animation: grow_shrink 0.4s ease-in-out;
+}
+
+@keyframes grow_shrink {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1; /* Başlangıç ve bitişte tam opasite */
+    }
+    50% { 
+        transform: scale(0.9); /* Küçülme */
+        opacity: 0.3; /* %70 opasite azalması */
+    }
+}
+
+  </style>
+</head>
+<body>
+
+  <div id="settings" class="yatay">
+		<label><input type="checkbox" id="record_mode" onclick="toggleSave()">New Point</label>
+		<label><input type="checkbox" id="edit_mode" onclick="toggleEdit()">Edit Coordinate</label>
+<label><input type="checkbox" id="edit_txmode" onclick="toggleTxEdit()">Edit Text</label>		
+		<button id="bt_jsdown">Down JS </button>
+		<input type="file" id="file-input" accept=".js" style="display:none" />		
+		<button id="bt_jsondown">Down JSON</button>
+		<input type="file" id="file-input" accept=".json" style="display:none" />
+		<button id="load-btn">Load JSON</button> <!-- Yükle butonu ekleniyor -->
+  </div>
+  
+<button id="tog_settings">...</button>
+
+  <div class="yatay">
+    <div id="tb_titles">
+    <table id="img_selectTb">
+    <tr>
+	    <td data-image="im_region\man_f.png">
+		<img src="im_region/man_f2.png" alt="Face" width="30" height="29">
+    </tr>
+      <tr>
+        <td data-image="im_region\man_b.png" height="29">🔙</td>
+      </tr>
+    <tr>
+	    <td data-image="im_region\woman_f.png">
+		<img src="im_region/woman_f2.png" alt="Face" width="30" height="29">
+    </tr>
+      <tr>
+        <td data-image="im_region\woman_b.png" height="29">🔙</td>
+      </tr>
+    <tr>
+	    <td data-image="im_region\01_head_fr.png">
+		<img src="im_region/01_head_fr.png" alt="Face" width="30" height="29">
+    </tr>
+    <tr>
+	    <td data-image="im_region\02_head_left.png">
+		<img src="im_region/02_head_left.png" alt="Face" width="30" height="29">
+    </tr>
+    <tr>
+	    <td data-image="im_region\03_head_right.png">
+		<img src="im_region/03_head_right.png" alt="Face" width="30" height="29">
+    </tr>
+    <tr>
+	    <td data-image="im_region\04_head_back.png">
+		<img src="im_region/04_head_back.png" alt="Face" width="30" height="29">
+    </tr>
+    <tr>
+	    <td data-image="im_region\05_head_top.png">
+		<img src="im_region/05_head_top.png" alt="Face" width="30" height="29">
+    </tr>
+      <tr>
+        <td data-image="im_region\right_hand_p.png" height="29">R✋</td>
+      </tr>
+      <tr>
+        <td data-image="im_region\right_hand_d.png" height="29">🔙</td>
+      </tr>
+      <tr>
+        <td data-image="im_region\left_hand_p.png" height="29">L✋</td>
+      </tr>
+      <tr>
+        <td data-image="im_region\left_hand_d.png" height="29">🔙</td>
+      </tr>
+    </table>
+  </div>
+  <div id="img_container">
+    <img id="anatomy-image" src="im_region\man_f.png" alt="Anatomik Resim" />
+  </div>
+  </div>
+  
+    <div class="yatay">
+		<button id="bt_num" onclick="size_num()">..cm</button>
+		<div id="numberTableContainer" style="display: none;"></div>
+    	<button id="bt_half" onclick="addHalf()">0,5</button>
+  <button id="bt_sekil" onclick="toggleTable('tbl_sekil', 'tbl_yara')">shape</button>
+    <button id="bt_yara" onclick="toggleTable('tbl_yara', 'tbl_sekil')">injury</button>
+  </div>  
+  <table id="tbl_sekil" style="display: none;">
+    <tr>
+      <td>noktasal</td>
+      <td>milimetrik</td>
+    </tr>
+    <tr>
+      <td>çizgisel</td>
+      <td>V şeklinde</td>
+    </tr>
+    <tr>
+      <td>düzgün sınırlı</td>
+      <td>kötü sınırlı</td>
+    </tr>
+  </table>
+
+
+  <table id="tbl_yara" style="display: none;">
+     <tr>
+      <td>birkaç tane</td>
+      <td>çok sayıda</td>
+    </tr>
+    <tr>
+      <td>abrazyon</td>
+      <td>yüzeyel çizik</td>
+    </tr>
+    <tr>
+      <td>cilt kesisi</td>
+      <td>cilt ve cilt altı kesisi</td>
+    </tr>
+    <tr>
+      <td>ekimoz</td>
+      <td>siyanoz</td>
+    </tr>
+    <tr>
+      <td>şişlik</td>
+      <td>yanık</td>
+    </tr>
+    <tr>
+      <td>deformasyon</td>
+      <td></td>
+    </tr>
+  </table>
+
+<div class="yatay">
+<textarea id="tx_bolge" spellcheck="false" /></textarea><br>
+
+    <div class="dikey">
+		<button id="bt_clear" onclick="clearBolge()">Clear</button>
+		<button id="bt_copy" onclick="copyBolge()">Copy</button>
+    	<button id="bt_posta" onclick="postaBolge()">Post</button>
+  </div>
+  </div>
+  <script src="body_points.js"></script>
+
+<script>
+  let textAreas = textAreas2; // Her resim için ayrı dizi
+  const imgContainer = document.getElementById('img_container');
+  const image = document.getElementById('anatomy-image');
+  const fileInput = document.getElementById('file-input');
+  const recordModeCheckbox = document.getElementById('record_mode');
+
+  // Tablodaki hücreye tıklanarak resim değiştirme
+  document.querySelectorAll('#img_selectTb td').forEach(cell => {
+    cell.addEventListener('click', function () {
+      const newImageSrc = this.getAttribute('data-image');
+      image.src = newImageSrc;
+
+      // Resim yüklendikten sonra boyutlarını dinamik olarak güncelle
+      image.onload = () => loadTextAreas();
+    });
+  });
+
+  // Yükleme butonuna tıklandığında dosya seçme alanını aç
+  document.getElementById('load-btn').addEventListener('click', function () {
+    fileInput.click();
+  });
+
+  // Dosya yükleme işlemi
+  fileInput.addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file && file.name.endsWith('.json')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          textAreas = data;
+          loadTextAreas(); // Yüklenen veriyi sayfada göster
+        } catch (error) {
+          alert('JSON dosyası geçersiz.');
+        }
+      };
+      reader.readAsText(file);
+    } else {
+      alert('Lütfen geçerli bir JSON dosyası yükleyin.');
+    }
+  });
+
+let firstClick = null; // İlk tıklama bilgisini tutacak
+const editModeCheckbox = document.getElementById('edit_mode'); // Edit Mode checkbox
+const textModeCheckbox = document.getElementById('edit_txmode'); // Text Mode checkbox
+
+// Resmin üzerine tıklanarak nokta eklenmesi
+imgContainer.addEventListener('click', function (event) {
+  const rect = image.getBoundingClientRect();
+  const x = event.clientX - rect.left; // X koordinatı
+  const y = event.clientY - rect.top;  // Y koordinatı
+  const xRatio = x / rect.width; // X oranı
+  const yRatio = y / rect.height; // Y oranı
+  const imageName = image.src.split('/').pop();
+
+  if (editModeCheckbox.checked) {
+    // Edit mode aktif
+    if (!firstClick) {
+      // İlk tıklama yapıldı
+      firstClick = { x, y, xRatio, yRatio };
+
+      // Geçici nokta (yeşil) oluştur
+      const tempClick = document.createElement('div');
+      tempClick.id = 'temp-click';
+      tempClick.classList.add('clickable-area');
+      tempClick.style.backgroundColor = 'green';
+      tempClick.style.left = `${x - 5}px`;
+      tempClick.style.top = `${y - 5}px`;
+      imgContainer.appendChild(tempClick);
+    } else {
+      // İkinci tıklama, en yakın noktayı bul ve koordinatlarını değiştir
+      if (textAreas[imageName]) {
+        const closestPointIndex = textAreas[imageName].reduce((closest, area, index) => {
+          const areaX = area.xRatio * rect.width;
+          const areaY = area.yRatio * rect.height;
+          const distance = Math.hypot(firstClick.x - areaX, firstClick.y - areaY);
+          return distance < closest.distance ? { distance, index } : closest;
+        }, { distance: Infinity, index: -1 }).index;
+
+        if (closestPointIndex !== -1) {
+          // Noktanın koordinat oranlarını güncelle
+          textAreas[imageName][closestPointIndex].xRatio = parseFloat(xRatio.toFixed(4));
+          textAreas[imageName][closestPointIndex].yRatio = parseFloat(yRatio.toFixed(4));
+          updateTextBox();
+          loadTextAreas(); // Noktaları yeniden yükle
+          alert('Koordinatlar başarıyla değiştirildi.');
+        }
+      }
+
+      // Geçici noktayı kaldır ve resetle
+      const tempClick = document.getElementById('temp-click');
+      if (tempClick) tempClick.remove();
+      firstClick = null;
+    }
+  } else if (textModeCheckbox.checked) {
+   if (textAreas[imageName]) {
+      const closestPointIndex = textAreas[imageName].reduce((closest, area, index) => {
+        const areaX = area.xRatio * rect.width;
+        const areaY = area.yRatio * rect.height;
+        const distance = Math.hypot(x - areaX, y - areaY);  // Yeni koordinat ile mesafeyi hesapla
+        return distance < closest.distance ? { distance, index } : closest;
+      }, { distance: Infinity, index: -1 }).index;
+
+      if (closestPointIndex !== -1) {
+        // Mevcut metni al ve kullanıcıya göster
+        const currentText = textAreas[imageName][closestPointIndex].text;
+        const newText = prompt('Mevcut metni değiştirmek için yeni metni girin:', currentText);
+        
+        if (newText !== null) {
+          // Yeni metni kaydet
+          textAreas[imageName][closestPointIndex].text = newText;
+          updateTextBox();
+          loadTextAreas(); // Noktaları yeniden yükle
+          alert('Metin başarıyla değiştirildi.');
+        }
+      }
+      // Geçici noktayı kaldır ve resetle
+      const tempClick = document.getElementById('temp-click');
+      if (tempClick) tempClick.remove();
+      firstClick = null;
+    
+  } 
+    } else if (recordModeCheckbox.checked) {
+    // Kayıt modu aktif, yeni nokta ekle
+    const text = prompt("Bu nokta için açıklama girin:");
+    if (text && text.trim()) {
+      if (!textAreas[imageName]) {
+        textAreas[imageName] = [];
+      }
+      textAreas[imageName].push({ xRatio: parseFloat(xRatio.toFixed(4)), yRatio: parseFloat(yRatio.toFixed(4)), text: text });
+
+      const clickableArea = document.createElement('div');
+      clickableArea.classList.add('clickable-area');
+      clickableArea.style.left = `${x - 5}px`;
+      clickableArea.style.top = `${y - 5}px`;
+      imgContainer.appendChild(clickableArea);
+
+      updateTextBox();
+    }
+  } else {
+    // Kayıt ve düzenleme modları pasif, nokta altındaki metni al ve tx_bolge'ye ekle
+    if (textAreas[imageName]) {
+      const closestPoint = textAreas[imageName].reduce((closest, area) => {
+        const areaX = area.xRatio * rect.width;
+        const areaY = area.yRatio * rect.height;
+        const distance = Math.hypot(x - areaX, y - areaY);
+        return distance < closest.distance ? { distance, text: area.text } : closest;
+      }, { distance: Infinity, text: null });
+
+      if (closestPoint.text) {
+        const txBolge = document.getElementById('tx_bolge');
+        
+        // Daha önce eklenmişse tekrar eklenmesini engelle
+        if (!txBolge.value.includes(closestPoint.text)) {
+          txBolge.value = txBolge.value ? `${txBolge.value}, ${closestPoint.text}` : closestPoint.text;
+        }
+      }
+    }
+  }
+});
+
+  // Textbox'daki diziyi güncelleme
+  function updateTextBox() {
+    const text = `const textAreas = ${JSON.stringify(textAreas, null, 2)};`;
+  }
+
+  // TextAreas verilerini sayfada göster
+  function loadTextAreas() {
+    const imageName = image.src.split('/').pop();
+    const existingAreas = document.querySelectorAll('.clickable-area');
+    existingAreas.forEach(area => area.remove());
+
+    if (textAreas[imageName]) {
+      const rect = image.getBoundingClientRect();
+      textAreas[imageName].forEach(area => {
+        const x = area.xRatio * rect.width; // X koordinatını hesapla
+        const y = area.yRatio * rect.height; // Y koordinatını hesapla
+
+        const clickableArea = document.createElement('div');
+        clickableArea.classList.add('clickable-area');
+        clickableArea.style.left = `${x - 5}px`;
+        clickableArea.style.top = `${y - 5}px`;
+        clickableArea.title = area.text;
+        imgContainer.appendChild(clickableArea);
+      });
+    }
+
+    updateTextBox();
+  }
+
+  // JSON dosyasına kaydetme
+document.getElementById('bt_jsondown').addEventListener('click', function () {
+    // Veriyi JSON formatında alıyoruz
+    let dataStr = JSON.stringify(textAreas, null, 2);
+    
+    // JSON verisini tek satıra alıyoruz
+    dataStr = dataStr.replace(/\n\s+/g, ' ').replace(/\s+\n/g, ' ').replace(/(\[|},)/g, '$1\n');
+
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'textAreas_new.json';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+document.getElementById('bt_jsdown').addEventListener('click', function () {
+	// Veriyi JSON formatında alıyoruz
+    let dataStr = JSON.stringify(textAreas, null, 2);
+    
+    // JSON verisini tek satıra alıyoruz
+    dataStr = dataStr.replace(/\n\s+/g, ' ').replace(/\s+\n/g, ' ').replace(/(\[|},|],)/g, '$1\n');
+    dataStr = `const textAreas2 = ${dataStr};`;
+
+    // Blob oluşturuyoruz
+    const blob = new Blob([dataStr], { type: 'application/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'textAreas_new.js';  // Dosya adı formatına göre değişiyor
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+   const orjinalBG = "#202123"; 
+const saveModeColor = "#325c32"; // yeşil
+const editModeColor = "#144f80"; // mavi
+const txModeColor = "#727510";   // sarı
+ 
+function toggleSave() {
+  if (document.getElementById('record_mode').checked) {
+    document.getElementById('edit_mode').checked = false;
+    document.getElementById('edit_txmode').checked = false;
+    document.body.style.backgroundColor = saveModeColor;
+  } else {
+  	document.body.style.backgroundColor = orjinalBG;
+  	}
+}
+function toggleEdit() {
+  if (document.getElementById('edit_mode').checked) {
+    document.getElementById('record_mode').checked = false;
+    document.getElementById('edit_txmode').checked = false;
+     document.body.style.backgroundColor = editModeColor;
+  } else {
+  	document.body.style.backgroundColor = orjinalBG;
+  	}
+}
+function toggleTxEdit() {
+  if (document.getElementById('edit_txmode').checked) {
+    document.getElementById('record_mode').checked = false;
+    document.getElementById('edit_mode').checked = false;
+      document.body.style.backgroundColor = txModeColor;
+  } else {
+  	document.body.style.backgroundColor = orjinalBG;
+  	}
+}
+
+const regionTextbox = document.getElementById('tx_bolge');
+
+  // Ortak buçuk ekleme işlevi
+  function addHalf() {
+    const match = regionTextbox.value.match(/(\d+)(cm)$/);
+    if (match) {
+      const fullValue = `${match[1]},5cm`;
+      regionTextbox.value = regionTextbox.value.replace(match[0], fullValue). replace (",5,5", ",5x0,5");
+    } else {
+    	regionTextbox.value += " 0,5cm";
+    	}
+          document.getElementById('numberTableContainer').style.display = 'none';
+  }
+  
+function setupNumberTable() {
+  const container = document.getElementById('numberTableContainer');
+  container.innerHTML = "";
+  
+  // Tablo oluştur
+  const table = document.createElement('div');
+  table.id = 'numberTable';
+  container.appendChild(table);
+  
+  // 1-9 ve 0 için hücreler oluştur
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 0];
+  numbers.forEach((number) => {
+    const cell = document.createElement('div');
+    cell.textContent = number;
+    cell.dataset.value = number;
+    table.appendChild(cell);
+
+  if (number === 0) {
+    cell.textContent = "+0";
+  }
+  if (number === 11) {
+    cell.textContent = "+5";
+  }
+  
+    // Hücreye tıklanıldığında işlem yap
+    cell.addEventListener('click', () => {
+      const regionTextbox = document.getElementById('tx_bolge');
+       if (number === 0) {
+regionTextbox.value = regionTextbox.value.slice(0, -2);
+        regionTextbox.value += `0cm`;
+     } else if (number === 11) {
+regionTextbox.value = regionTextbox.value.slice(0, -2);
+        regionTextbox.value += `5cm`;
+    } else if (regionTextbox.value.endsWith("cm")) {
+        regionTextbox.value = regionTextbox.value.slice(0, -2);
+        regionTextbox.value += `x${number}cm`;
+      } else {
+        regionTextbox.value += `:~${number}cm`;
+      }
+      document.getElementById('numberTableContainer').style.display = 'none';
+    });
+  });
+}
+
+function size_num() {
+  var numpad = document.getElementById('numberTableContainer');
+   
+  // Eğer numpad zaten görünüyorsa, gizle
+  if (numpad.style.display === 'block') {
+    numpad.style.display = 'none';
+  } else {
+  	numpad.style.display = 'block';
+  setupNumberTable();
+  }
+}
+
+function toggleTable(showId, hideId) {
+  var showTable = document.getElementById(showId);
+  var hideTable = document.getElementById(hideId);
+
+  // Eğer gösterilecek tablo gizliyse göster, diğerini gizle
+  if (showTable.style.display === 'none' || showTable.style.display === '') {
+    showTable.style.display = 'block';
+    hideTable.style.display = 'none';
+  } else {
+    // Aksi halde tabloyu gizle
+    showTable.style.display = 'none';
+  }
+}
+
+function setupTable(selectedCell) {
+	const regionTextbox = document.getElementById('tx_bolge');
+
+  // Mevcut değeri ve seçilen değeri al
+  const currentValue = regionTextbox.value.trim();
+
+  if (selectedCell) {
+    // Mevcut değerleri boşluklardan ayır
+    const words = currentValue.split(/\s+/);
+
+    // Son kelimeyi ve son iki kelimeyi al
+    const lastWord = words[words.length - 1];
+    const lastTwoWords = words.slice(-2).join(' ');
+
+    // Tablo değerleri
+    //const allOptions = Array.from(document.querySelectorAll('#tbl_yara td')).map(td => td.textContent.trim());
+
+// tablo değerleri ama bazı hariçler var
+    const allOptions = Array.from(document.querySelectorAll('#tbl_yara td'))
+  .map(td => td.textContent.trim())
+  .filter(option => option !== "birkaç tane" && option !== "çok sayıda");
+
+    // Eğer seçili değer son kelimeye veya son iki kelimeye eşitse bir şey yapma
+    if (lastWord === selectedCell || lastTwoWords === selectedCell) {
+      return;
+    }
+
+    // Eğer son kelime veya son iki kelime tablodaki diğer değerlerden biri ise " ve " ile ekle
+    const hasOtherOption = allOptions.includes(lastWord) || allOptions.includes(lastTwoWords);
+
+    if (hasOtherOption && regionTextbox.value !== "") {
+      regionTextbox.value += " ve " + selectedCell;
+    } else {
+      regionTextbox.value += " " + selectedCell;
+    }
+
+    // `ilkTablo`dan biri seçildiğinde `sekTable` gizle, `yarTable` göster
+    const sekTableCells = document.querySelectorAll('#tbl_sekil td');
+    let matchFound = false;
+
+    // İlk tablodaki tüm hücrelerle karşılaştırma yapalım
+    sekTableCells.forEach(cell => {
+      if (cell.textContent.trim() === selectedCell) {
+        matchFound = true;
+      }
+    });
+
+    // Eğer eşleşme bulunduysa, butonu tıklayalım
+    if (matchFound) {
+      document.getElementById('bt_yara').click();
+    }
+  }
+}
+
+
+function clearBolge() {
+	document.getElementById('tx_bolge').value = "";
+}
+function copyBolge() {
+  const regionTextbox = document.getElementById('tx_bolge');
+  const currentValue = regionTextbox.value.trim();
+    navigator.clipboard.writeText(currentValue)
+      .then(() => {
+        console.log('trv exm panoya kopyalandı:');
+		regionTextbox.classList.add('shrink_grow');
+		
+		// 1 saniye sonra animasyonu kaldır
+		setTimeout(() => {
+			regionTextbox.classList.remove('shrink_grow');
+		}, 300);
+      })
+      .catch(err => {
+        console.error('Panoya kopyalama hatası:', err);
+      });
+}
+function postaBolge() {
+  const regionTextbox = document.getElementById('tx_bolge');
+  const currentValue = regionTextbox.value.trim();
+	
+  // Cihaz kontrolü
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isAndroid = userAgent.includes('android');
+  
+  if (isAndroid) {
+    localStorage.setItem('travma', currentValue);
+	localStorage.setItem('hname', "travma bulgusu");
+	window.location.href = "../Cnut_Android.html";
+  } else { // windows cihaz ise
+	localStorage.setItem('travma', currentValue);
+	localStorage.setItem('hideDiv', 'true');// iframe içinden, ana sayfadaki 'div' öğesini gizleme
+	history.go(-1); // bir önceki sayfaya geri yapar
+  }
+  
+  copyBolge();
+}
+
+const settingsToggle = document.getElementById('tog_settings');
+const settingsPanel = document.getElementById('settings');	
+	    // Toggle the settings panel
+settingsToggle.addEventListener('click', function () {
+  settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block';
+});
+	
+  window.onload = function() {
+    loadTextAreas();
+	document.querySelectorAll('#tbl_sekil td').forEach(cell => {
+  cell.addEventListener('click', () => {
+    setupTable(cell.textContent.trim());
+  });
+});
+document.querySelectorAll('#tbl_yara td').forEach(cell => {
+  cell.addEventListener('click', () => {
+    setupTable(cell.textContent.trim());
+  });
+});
+  };
+</script>
+
+</body>
+</html>

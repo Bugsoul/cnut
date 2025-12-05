@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<title>İlaç Arama ve Düzenleme</title>
+<style>
+  body { font-family: Arial; margin:20px; background:#1e1e1e; color:#ddd; }
+  input, textarea, button { padding:6px; margin:4px 0; width:100%; background:#2b2b2b; color:#eee; border:1px solid #555; }
+  .row { display:flex; gap:10px; }
+  .col { flex:1; }
+  #results { 
+    overflow-y: auto; /* Scroll ekliyoruz */
+    max-height: 80vh; /* Ekranın %80'i kadar yükseklik */
+    border: 1px solid #444; /* Kenarlık ekliyoruz */
+    margin-top: 5px;
+    padding: 5px;
+	  /*scrollbar-width: none;      Edge ve chrome da scroolbar gizle */
+  scrollbar-width: thin;          /* ince yap */
+  scrollbar-color: #565859 #303233; /* thumb , arkaplan */
+  }
+  #results div { 
+    padding:6px; 
+    border-bottom:1px solid #444; 
+    cursor:pointer; 
+  }
+  #results div:hover { background:#333; }
+  #panel { border:1px solid #555; padding:10px; margin-top:10px; background:#262626; }
+  button { width:auto; margin-right:5px; }
+  .button-group { display:flex; gap:5px; margin-bottom:10px; }
+</style>
+<script>
+let secili = null;
+let yeniKayitModu = true; // Başlangıçta yeni kayıt modunda açılacak
+const el = id => document.getElementById(id);
+
+// İlaç adını almak için yardımcı fonksiyon
+function getIlacAdi(ilac) {
+  if (Array.isArray(ilac.ad)) {
+    return ilac.ad[0].toLowerCase(); // Çoklu ad varsa ilkini al
+  }
+  return ilac.ad.toLowerCase();
+}
+
+// İlaçları alfabetik sırala
+function sortIlaclar() {
+  ilaclar.sort((a, b) => {
+    const adA = getIlacAdi(a);
+    const adB = getIlacAdi(b);
+    return adA.localeCompare(adB, 'tr');
+  });
+}
+
+function renderList() {
+  const q = el('search').value.toLowerCase();
+  const res = el('results');
+  res.innerHTML = '';
+  ilaclar.forEach((x, i) => {
+    if (JSON.stringify(x).toLowerCase().includes(q)) {
+      const d = document.createElement('div');
+      const ad = Array.isArray(x.ad) ? x.ad.join(', ') : x.ad;
+      d.innerHTML = `<strong>${ad}</strong><br><small>${Object.keys(x).filter(k=>k!=='ad' && k!=='bilgi').join(', ')}</small>`;
+      d.onclick = () => selectDrug(i);
+      res.appendChild(d);
+    }
+  });
+}
+
+function selectDrug(i) {
+  secili = i;
+  yeniKayitModu = false;
+  updateButtonStates();
+  
+  const x = ilaclar[i];
+
+  // İlaç adını doldur
+  const adText = Array.isArray(x.ad) ? x.ad.join(', ') : (x.ad || '');
+  el('editAd').value = adText;
+  
+  // Bilgi alanını doldur
+  el('editBilgi').value = x.bilgi || '';
+  
+  // Extra alanları doldur
+  const extraFields = el('extraFields');
+  extraFields.innerHTML = '';
+  
+  // 'ad' ve 'bilgi' haricindeki tüm alanları göster
+  Object.keys(x).forEach(k => {
+    if (k !== 'ad' && k !== 'bilgi') {
+      const fieldDiv = document.createElement('div');
+      fieldDiv.className = 'field-row';
+      
+      // Dizi olan alanları virgülle birleştirerek göster
+      let fieldValue = x[k];
+      if (Array.isArray(fieldValue)) {
+        fieldValue = fieldValue.join(', ');
+      }
+      
+      fieldDiv.innerHTML = `
+        <label>${k}</label>
+        <input class="extra-input" data-key="${k}" value="${fieldValue}" />
+      `;
+      extraFields.appendChild(fieldDiv);
+    }
+  });
+  
+  // Panel görünür yap
+  el('panel').style.display = 'block';
+}
+
+function updateButtonStates() {
+  el('saveBtn').textContent = yeniKayitModu ? 'Kaydet (Yeni)' : 'Güncelle';
+  el('newRecordBtn').style.display = yeniKayitModu ? 'none' : 'inline-block';
+  el('panelTitle').textContent = yeniKayitModu ? 'Yeni İlaç Ekleme' : 'İlaç Düzenleme';
+}
+
+function saveDrug() {
+  if (yeniKayitModu) {
+    // Yeni ilaç oluştur
+    const yeniIlac = {};
+    
+    // İlaç adını ekle
+    const adRaw = el('editAd').value.split(',').map(s => s.trim()).filter(Boolean);
+    yeniIlac.ad = adRaw.length > 1 ? adRaw : adRaw[0];
+    
+    // Bilgiyi ekle
+    yeniIlac.bilgi = el('editBilgi').value;
+    
+    // Mevcut extra alanları ekle
+    document.querySelectorAll('.extra-input').forEach(inp => {
+      const key = inp.dataset.key;
+      const value = inp.value.trim();
+      
+      if (key && value !== '') {
+        const values = value.split(',').map(s => s.trim()).filter(Boolean);
+        yeniIlac[key] = values.length > 1 ? values : values[0];
+      }
+    });
+    
+    // Yeni eklenen alanı kontrol et
+    const newKey = el('newKey').value.trim();
+    const newVal = el('newVal').value.trim();
+    if (newKey && newVal) {
+      const values = newVal.split(',').map(s => s.trim()).filter(Boolean);
+      yeniIlac[newKey] = values.length > 1 ? values : values[0];
+    }
+    
+    // İlaç listesine ekle
+    ilaclar.push(yeniIlac);
+    
+    // Alfabetik sırala
+    sortIlaclar();
+    
+    // Eklenen ilacın yeni index'ini bul
+    secili = ilaclar.findIndex(ilac => ilac === yeniIlac);
+    yeniKayitModu = false;
+    
+  } else {
+    // Mevcut ilacı güncelle
+    if (secili == null) return;
+    const x = ilaclar[secili];
+    
+    // İlaç adını güncelle
+    const adRaw = el('editAd').value.split(',').map(s => s.trim()).filter(Boolean);
+    const eskiAd = getIlacAdi(x);
+    x.ad = adRaw.length > 1 ? adRaw : adRaw[0];
+    
+    // Bilgiyi güncelle
+    x.bilgi = el('editBilgi').value;
+    
+    // Tüm alanları temizle
+    Object.keys(x).forEach(k => {
+      if (k !== 'ad' && k !== 'bilgi') {
+        delete x[k];
+      }
+    });
+    
+    // Extra alanları güncelle
+    document.querySelectorAll('.extra-input').forEach(inp => {
+      const key = inp.dataset.key;
+      const value = inp.value.trim();
+      
+      if (key && value !== '') {
+        const values = value.split(',').map(s => s.trim()).filter(Boolean);
+        x[key] = values.length > 1 ? values : values[0];
+      }
+    });
+    
+    // Yeni alan ekle
+    const newKey = el('newKey').value.trim();
+    const newVal = el('newVal').value.trim();
+    if (newKey && newVal) {
+      const values = newVal.split(',').map(s => s.trim()).filter(Boolean);
+      x[newKey] = values.length > 1 ? values : values[0];
+    }
+    
+    // Ad değiştiyse yeniden sırala
+    const yeniAd = getIlacAdi(x);
+    if (eskiAd !== yeniAd) {
+      sortIlaclar();
+      // Yeni index'i bul
+      secili = ilaclar.findIndex(ilac => ilac === x);
+    }
+  }
+  
+  // Input'ları temizle
+  el('newKey').value = 'doz';
+  el('newVal').value = '';
+  
+  renderList();
+  selectDrug(secili); // Güncel veriyi göster
+  updateButtonStates();
+}
+
+function deleteDrug() {
+  if (secili == null) return;
+  if (confirm('Silinsin mi?')) {
+    ilaclar.splice(secili, 1);
+    secili = null;
+    yeniKayitModu = true;
+    clearPanel();
+    updateButtonStates();
+    renderList();
+  }
+}
+
+function clearPanel() {
+  el('editAd').value = '';
+  el('editBilgi').value = '';
+  el('extraFields').innerHTML = '';
+  el('newKey').value = 'doz';
+  el('newVal').value = '';
+  el('panel').style.display = 'block';
+  secili = null;
+  yeniKayitModu = true;
+  updateButtonStates();
+}
+
+function newRecord() {
+  clearPanel();
+}
+
+// Arama kutusuna input event listener ekleyelim
+document.addEventListener('DOMContentLoaded', function() {
+  // Başlangıçta alfabetik sırala
+  sortIlaclar();
+  renderList();
+  
+  el('search').addEventListener('input', renderList);
+  // Panel başlangıçta görünür (yeni kayıt modu)
+  el('panel').style.display = 'block';
+  updateButtonStates();
+  
+  // Yeni alan eklemek için Enter tuşu desteği
+  el('newVal').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      // Yeni alanı ekle ve input'ları temizle
+      const newKey = el('newKey').value.trim();
+      const newVal = el('newVal').value.trim();
+      
+      if (newKey && newVal) {
+        if (yeniKayitModu || secili === null) {
+          // Yeni kayıt modunda, extraFields'e ekle
+          const extraFields = el('extraFields');
+          const fieldDiv = document.createElement('div');
+          fieldDiv.className = 'field-row';
+          
+          const values = newVal.split(',').map(s => s.trim()).filter(Boolean);
+          const displayVal = values.length > 1 ? values.join(', ') : values[0];
+          
+          fieldDiv.innerHTML = `
+            <label>${newKey}</label>
+            <input class="extra-input" data-key="${newKey}" value="${displayVal}" />
+          `;
+          extraFields.appendChild(fieldDiv);
+        } else {
+          // Mevcut kayıt düzenleme modunda, doğrudan kaydet
+          const x = ilaclar[secili];
+          const values = newVal.split(',').map(s => s.trim()).filter(Boolean);
+          x[newKey] = values.length > 1 ? values : values[0];
+          selectDrug(secili); // Alanı göstermek için yenile
+        }
+        
+        // Input'ları temizle
+        el('newKey').value = 'doz';
+        el('newVal').value = '';
+      }
+    }
+  });
+});
+
+function downloadJS() {
+  const content = `const ilaclar = ${JSON.stringify(ilaclar, null, 2)};`;
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'important_dose.txt'; // txt olarak kaydediyor
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
+}
+
+
+function parseVal(v){ 
+  try{ 
+    return JSON.parse(v); 
+  }catch(e){ 
+    return v; 
+  } 
+}
+</script>
+</head>
+<body>
+<h2>İlaç Arama ve Düzenleme</h2>
+<div style="display:flex; gap:15px;">
+  <!-- Sol Panel (%15) -->
+  <div style="width:15%; min-width:150px;">
+    <input id="search" placeholder="Ara..." />
+    <div id="results"></div>
+  </div>
+
+  <!-- Sağ Panel (%85) -->
+  <div style="flex:1;">
+    <!-- Sabit Panel (Başlangıçta görünür) -->
+    <div id="panel">
+      <h3 id="panelTitle">Yeni İlaç Ekleme</h3>
+      
+      <div class="field-row">
+        <label>Ad (virgül ile ayır → dizi)</label>
+        <input id="editAd" />
+      </div>
+      
+      <div class="field-row">
+        <label>Bilgi</label>
+        <textarea id="editBilgi" rows="5"></textarea>
+      </div>
+      
+      <div class="extra-fields">
+        <div id="extraFields"></div>
+      </div>
+      
+      <div class="field-row">
+        <label>Yeni Alan Ekle (örn: doz)</label>
+        <div style="display:flex; gap:5px;">
+          <input id="newKey" placeholder="Alan adı" style="flex:1;" value="doz">
+          <input id="newVal" placeholder="Değer (Enter ile ekle)" style="flex:2;">
+        </div>
+        <small style="color:#888;">Değeri girip Enter'a basarak hızlı ekleme yapabilirsiniz</small>
+      </div>
+	  
+      <div class="button-group">
+        <button id="saveBtn" onclick="saveDrug()">Kaydet (Yeni)</button>
+        <button onclick="deleteDrug()">Sil</button>
+        <button onclick="clearPanel()">Temizle</button>
+        <button id="newRecordBtn" onclick="newRecord()" style="display:none;">Yeni Kayıt</button>
+      </div>	  
+    </div>
+
+    <br>
+    <button onclick="downloadJS()">Txt Olarak İndir</button>
+  </div>
+</div>
+<script src="important_dose.js"></script>
+</body>
+</html>
