@@ -329,7 +329,7 @@ textarea {  /* sitedeki tüm textare'lara etki edecek */
 	color: #fff;
 }
 
-#gi-container, #ps_flu {
+#gi_gate, #ps_flu {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -340,7 +340,7 @@ textarea {  /* sitedeki tüm textare'lara etki edecek */
   align-items: center;
 }
 
-#gi-container label, #gi-container input, #gi-container button {
+#gi_gate label, #gi_gate input, #gi_gate button {
   margin-bottom: 15px;
 }
 
