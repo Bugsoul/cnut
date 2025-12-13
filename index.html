@@ -5,58 +5,9 @@
 	<title>Login Cnut the Great</title>
 <script src="steam_text.js"></script>
 <script src="main.js"></script>
-<style>
-body {
-  background-color: #202123; /* yeşil #202322, gri_mavi #202123 */
-  color: #cccccc;
-}
-#im_cnut {
-	width: 200px;
-	height: 184px;
-}
-#gi-container, #ps_flu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
-#gi-container label, #gi-container input, #gi-container button {
-  margin-bottom: 15px;
-}
-
-#tx_enter, #tx_fk {
-	background-color: #30313b;
-	color: #cccccc;
-}
-</style>
 </head>
 <body>
-<input type="password" id="ps_flu">
-
-<div id="gi-container">
-<img id="im_cnut">
-   <label id="lb_idm"></label>
- <input type="text" id="tx_fk">
- <input type="password" id="tx_enter">
-  <button type="end" id="bt_fk"></button>
-  <label id="lb_cap"></label>
-</div>
-	
-	<script>
-	document.getElementById("im_cnut").src = "iko/cnut.png";
-	document.getElementById("bt_fk").innerHTML = "Log in"
-	document.getElementById("lb_idm").innerHTML = "CNUT the Great"
-    document.getElementById("tx_fk").value = "BRN_511";
-	document.getElementById("tx_enter").setAttribute("placeholder", "Enter Pass...");
-	document.getElementById("tx_fk").setAttribute("placeholder", "Enter ID...");
-	document.getElementById("tx_enter").focus();
-	</script>
-	
 	<script src="rare/index_plate.js"></script>
 </body>
 </html>
