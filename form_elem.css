@@ -958,13 +958,19 @@ h4 {
 }
 
 #img_spin, #img_spinM, #img_spinP {
-  width: %50;
-  height: %50;
   position: absolute;
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+}
+#img_spin, #img_spinM {
+  width: %50;
+  height: %50;
+}
+#img_spinP {
+  width: %30;
+  height: %30;
 }
 
 /* açılış ve yeni gist girişi sırasında bal peteği desen efekti, en altta */
