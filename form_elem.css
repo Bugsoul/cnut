@@ -957,7 +957,7 @@ h4 {
   color: #fff;
 }
 
-#img_spin, #img_spinM {
+#img_spin, #img_spinM, #img_spinP {
   width: %50;
   height: %50;
   position: absolute;
