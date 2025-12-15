@@ -986,6 +986,9 @@ h4 {
 }
 
 #lb_vers {
+	position: absolute;
+    left: 10px;
+    bottom: 10px;
     font-style: italic;
     color: #59784a;
 	margin-top: 10px;
