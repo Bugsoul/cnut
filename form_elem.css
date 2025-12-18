@@ -183,6 +183,7 @@
 
 #lb_idm {
 	font-size: 20px;
+	color: #4a75ba;
 }
 
 /* Gizli checkbox */
@@ -629,7 +630,7 @@ h4 {
 	padding: 5px 0;
 }
 
-.cons_box img {
+.cons_box img, #lb_idm {
 	cursor: pointer;
 }
 
