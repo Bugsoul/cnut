@@ -181,11 +181,6 @@
 	background-color: #f2f2f2;
 }
 
-#lb_idm {
-	font-size: 20px;
-	color: #4a75ba;
-}
-
 /* Gizli checkbox */
 .iphone_switch {
   display: none;
@@ -630,7 +625,7 @@ h4 {
 	padding: 5px 0;
 }
 
-.cons_box img, #lb_idm {
+.cons_box img {
 	cursor: pointer;
 }
 
@@ -981,13 +976,3 @@ h4 {
   width: 200px;
   height: 60px;
 }
-
-#lb_vers {
-	position: absolute;
-    left: 10px;
-    bottom: 10px;
-    font-style: italic;
-    color: #59784a;
-	margin-top: 10px;
-}
-

@@ -104,11 +104,6 @@ body {
 	height: 30px;
 }
 
-#tx_enter, #tx_fk {
-	background-color: #30313b;
-	color: #cccccc;
-}
-
 #tx_TA, #tx_NB, #tx_SS, #tx_SAT, #tx_ates, #tx_ks, #tx_TAi, #tx_NBi, #tx_SSi, #tx_SATi, #tx_atesi, #tx_ksi {
     font-size: 18px;
 	background-color: #495557;
@@ -151,18 +146,9 @@ body {
   color: #fcfc6a; /* parlak sarı */
   font-size: 18px;
   opacity: 0.8; /* %20 opasite ikonları matlaştırmak için */
-  background-image:   /* birden fazla arkaplan */
-    url('iko/diagnosis.png'),        /* ortadaki */
-    url('iko/r_click.png');      /* sağdaki */
-  background-repeat: 
-    no-repeat,                   /* diagnosis.png */
-    no-repeat;                   /* r_click.png */
-  background-size: 
-    contain,                   /* diagnosis.png boyutu */
-    contain;                     /* r_click.png boyutu */
-  background-position: 
-    center center,               /* diagnosis.png ortada */
-    calc(100% - 10px) center;    /* r_click.png sağda */
+  background: /* Çoklu arkaplan tek satırda */
+    url('iko/diagnosis.png') center center / contain no-repeat,
+    url('iko/r_click.png') calc(100% - 10px) center / contain no-repeat;
   z-index: 109;
 }
 
@@ -329,21 +315,6 @@ textarea {  /* sitedeki tüm textare'lara etki edecek */
 	color: #fff;
 }
 
-#gi-container, #ps_flu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#gi-container label, #gi-container input, #gi-container button {
-  margin-bottom: 15px;
-}
-
 #bt_new {
   background-color: #0e6b27;
   width: 70px;
@@ -471,12 +442,6 @@ textarea {  /* sitedeki tüm textare'lara etki edecek */
 	background-color: #778899;
 }
 
-#lb_cap {
-  cursor: pointer;
-  color: #c6d9f0;
-}
-
-
 #lb_sik, #lb_icd {
   display: inline-block;
   vertical-align: top;
@@ -491,10 +456,6 @@ textarea {  /* sitedeki tüm textare'lara etki edecek */
 #im_ext {
   width: 40px;
   height: 40px;
-}
-#im_cnut {
-	width: 200px;
-	height: 184px;
 }
 
 #popup {
